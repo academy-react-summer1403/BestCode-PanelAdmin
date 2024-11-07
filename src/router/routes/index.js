@@ -12,6 +12,7 @@ import PublicRoute from "@components/routes/PublicRoute";
 
 // ** Utils
 import { isObjEmpty } from "@utils";
+import { User } from "react-feather";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -26,7 +27,7 @@ const TemplateTitle = "%s - Vuexy React Admin Template";
 const DefaultRoute = "/home";
 
 const Home = lazy(() => import("../../pages/Home"));
-const SecondPage = lazy(() => import("../../pages/SecondPage"));
+const CourseList = lazy(() => import("../../pages/CourseList"));
 const Login = lazy(() => import("../../pages/Login"));
 const Register = lazy(() => import("../../pages/Register"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
@@ -45,12 +46,12 @@ const Routes = [
     element: <Home />,
   },
   {
-    path: "/sample",
-    element: <Sample />,
+    path: "/courseList",
+    element: <CourseList />,
   },
   {
-    path: "/second-page",
-    element: <SecondPage />,
+    path: "/userManagement",
+    element: <userManagement />,
   },
   {
     path: "/login",
