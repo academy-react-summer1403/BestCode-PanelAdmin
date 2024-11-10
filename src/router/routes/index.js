@@ -28,11 +28,16 @@ const DefaultRoute = "/home";
 
 const Home = lazy(() => import("../../pages/Home"));
 const CourseList = lazy(() => import("../../pages/CourseList"));
+const userList = lazy(() => import("../../pages/userList"));
+const newsManagement = lazy(() => import("../../pages/newsManagement"));
+const commentsManagement = lazy(() => import("../../pages/commentsManagement"));
+
+
+
 const Login = lazy(() => import("../../pages/Login"));
 const Register = lazy(() => import("../../pages/Register"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
 const Error = lazy(() => import("../../pages/Error"));
-const Sample = lazy(() => import("../../pages/Sample"));
 
 // ** Merge Routes
 const Routes = [
@@ -46,12 +51,20 @@ const Routes = [
     element: <Home />,
   },
   {
-    path: "/courseList",
+    path: "/courseManagement/courseList",
     element: <CourseList />,
   },
   {
-    path: "/userManagement",
-    element: <userManagement />,
+    path: "/userManagement/userList",
+    element: <userList />,
+  },
+  {
+    path: "/newsManagement",
+    element: <newsManagement />,
+  },
+  {
+    path: "/commentsManagement",
+    element: <commentsManagement />,
   },
   {
     path: "/login",

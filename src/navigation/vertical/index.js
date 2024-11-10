@@ -17,7 +17,7 @@ export default [
         id: "courseList",
         title: "لیست دوره ها",
         icon: <Circle size={12} />,
-        navLink: "/courseList",
+        navLink: "/courseManagement/courseList",
       },
 
     ],
@@ -32,7 +32,7 @@ export default [
         id: "userList",
         title: "لیست کاربران",
         icon: <Circle size={12} />,
-        navLink: "/userList",
+        navLink: "/userManagement/userList",
       },
 
     ],
