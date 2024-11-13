@@ -19,16 +19,16 @@ import '@styles/react/apps/app-users.scss'
 
 const UserView = () => {
   // ** Store Vars
-  const store = useSelector(state => state.users)
-  const dispatch = useDispatch()
+  // const store = useSelector(state => state.users)
+  // const dispatch = useDispatch()
 
   // ** Hooks
-  const { id } = useParams()
+  // const { id } = useParams()
 
   // ** Get suer on mount
-  useEffect(() => {
-    dispatch(getUser(parseInt(id)))
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(getUser(parseInt(id)))
+  // }, [dispatch])
 
   const [active, setActive] = useState('1')
 
@@ -36,27 +36,27 @@ const UserView = () => {
     if (active !== tab) {
       setActive(tab)
     }
-  }
+  }     //store.selectedUser !== null && store.selectedUser !== undefined ?
 
-  return store.selectedUser !== null && store.selectedUser !== undefined ? (
+   return  (
     <div className='app-user-view'>
-      <Row>
+       <Row>
         <Col xl='4' lg='5' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
-          <UserInfoCard selectedUser={store.selectedUser} />
+          <UserInfoCard  />
           <PlanCard />
         </Col>
         <Col xl='8' lg='7' xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
           <UserTabs active={active} toggleTab={toggleTab} />
         </Col>
-      </Row>
+      </Row> 
     </div>
-  ) : (
-    <Alert color='danger'>
-      <h4 className='alert-heading'>User not found</h4>
-      <div className='alert-body'>
-        User with id: {id} doesn't exist. Check list of all Users: <Link to='/apps/user/list'>Users List</Link>
-      </div>
-    </Alert>
-  )
+  ) // ( <></>
+    // <Alert color='danger'>
+    //   <h4 className='alert-heading'>User not found</h4>
+    //    <div className='alert-body'>
+    //     User with id: {id} doesn't exist. Check list of all Users: <Link to='/apps/user/list'>Users List</Link>
+    //   </div> 
+    // </Alert>
+  //)
 }
 export default UserView

@@ -4,8 +4,8 @@ import EcommerceDashboard from "../@core/layouts/components/homeHolder/dashboard
 const Home = () => {
   return (
     <>
-              <AnalyticsDashboard/>
-              {/* <EcommerceDashboard/> */}
+              {/* <AnalyticsDashboard/> */}
+              <EcommerceDashboard/>
      
     </>
   );

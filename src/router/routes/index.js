@@ -28,9 +28,11 @@ const DefaultRoute = "/home";
 
 const Home = lazy(() => import("../../pages/Home"));
 const CourseList = lazy(() => import("../../pages/CourseList"));
-const userList = lazy(() => import("../../pages/userList"));
-const newsManagement = lazy(() => import("../../pages/newsManagement"));
-const commentsManagement = lazy(() => import("../../pages/commentsManagement"));
+const CourseDetail = lazy(() => import("../../pages/CourseDetail"));
+const UserList = lazy(() => import("../../pages/userList"));
+const NewsManagement = lazy(() => import("../../pages/newsManagement"));
+const CommentsManagement = lazy(() => import("../../pages/commentsManagement"));
+const AddnewCourse = lazy(() => import("../../pages/AddnewCourse"));
 
 
 
@@ -55,16 +57,24 @@ const Routes = [
     element: <CourseList />,
   },
   {
+    path: "/courseManagement/AddnewCourse",
+    element: <AddnewCourse />,
+  },
+  {
+    path: "/courseManagement/CourseDetail",
+    element: <CourseDetail />,
+  },
+  {
     path: "/userManagement/userList",
-    element: <userList />,
+    element: <UserList />,
   },
   {
     path: "/newsManagement",
-    element: <newsManagement />,
+    element: <NewsManagement />,
   },
   {
     path: "/commentsManagement",
-    element: <commentsManagement />,
+    element: <CommentsManagement />,
   },
   {
     path: "/login",

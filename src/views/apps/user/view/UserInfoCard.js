@@ -63,19 +63,19 @@ const UserInfoCard = ({ selectedUser }) => {
   const [show, setShow] = useState(false)
 
   // ** Hook
-  const {
-    reset,
-    control,
-    setError,
-    handleSubmit,
-    formState: { errors }
-  } = useForm({
-    defaultValues: {
-      username: selectedUser.username,
-      lastName: selectedUser.fullName.split(' ')[1],
-      firstName: selectedUser.fullName.split(' ')[0]
-    }
-  })
+  // const {
+  //   reset,
+  //   control,
+  //   setError,
+  //   handleSubmit,
+  //   formState: { errors }
+  // } = useForm({
+  //   defaultValues: {
+  //     username: selectedUser.username,
+  //     lastName: selectedUser.fullName.split(' ')[1],
+  //     firstName: selectedUser.fullName.split(' ')[0]
+  //   }
+  // })
 
   // ** render user img
   const renderUserImg = () => {
@@ -174,15 +174,15 @@ const UserInfoCard = ({ selectedUser }) => {
         <CardBody>
           <div className='user-avatar-section'>
             <div className='d-flex align-items-center flex-column'>
-              {renderUserImg()}
+              <img src="" alt="" />
               <div className='d-flex flex-column align-items-center text-center'>
                 <div className='user-info'>
-                  <h4>{selectedUser !== null ? selectedUser.fullName : 'Eleanor Aguilar'}</h4>
-                  {selectedUser !== null ? (
+                  <h4> ARASH HOSSINZADE GHAFFARI </h4>
+                  {/* {selectedUser !== null ? (
                     <Badge color={roleColors[selectedUser.role]} className='text-capitalize'>
                       {selectedUser.role}
-                    </Badge>
-                  ) : null}
+                    </Badge> 
+                  ) : null} */}
                 </div>
               </div>
             </div>
@@ -213,40 +213,41 @@ const UserInfoCard = ({ selectedUser }) => {
               <ul className='list-unstyled'>
                 <li className='mb-75'>
                   <span className='fw-bolder me-25'>Username:</span>
-                  <span>{selectedUser.username}</span>
+                  <span> GHAFFARI </span>
                 </li>
                 <li className='mb-75'>
                   <span className='fw-bolder me-25'>Billing Email:</span>
-                  <span>{selectedUser.email}</span>
+                  <span> ghaffariarash369@gmail.com </span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Status:</span>
-                  <Badge className='text-capitalize' color={statusColors[selectedUser.status]}>
-                    {selectedUser.status}
+                  <span className='fw-bolder me-25'>Status:  BABOL </span>
+                  <Badge className='text-capitalize' >
                   </Badge>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Role:</span>
-                  <span className='text-capitalize'>{selectedUser.role}</span>
+                  <span className='fw-bolder me-25'>Role: NOT </span>
+                  <span className='text-capitalize'></span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Tax ID:</span>
-                  <span>Tax-{selectedUser.contact.substr(selectedUser.contact.length - 4)}</span>
+                  <span className='fw-bolder me-25'>Tax ID: 124551684</span>
+                  <span>Tax-</span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Contact:</span>
-                  <span>{selectedUser.contact}</span>
+                  <span className='fw-bolder me-25'>Contact: 123</span>
+                  <span></span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Language:</span>
-                  <span>English</span>
+                  <span className='fw-bolder me-25'>Language:  </span>
+                  <span>PERSIAN</span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Country:</span>
-                  <span>England</span>
+                  <span className='fw-bolder me-25'>Country:  </span>
+                  <span>IRAN</span>
                 </li>
               </ul>
             ) : null}
+
+            
           </div>
           <div className='d-flex justify-content-center pt-2'>
             <Button color='primary' onClick={() => setShow(true)}>
@@ -265,13 +266,13 @@ const UserInfoCard = ({ selectedUser }) => {
             <h1 className='mb-1'>Edit User Information</h1>
             <p>Updating user details will receive a privacy audit.</p>
           </div>
-          <Form onSubmit={handleSubmit(onSubmit)}>
+          <Form >
             <Row className='gy-1 pt-75'>
               <Col md={6} xs={12}>
                 <Label className='form-label' for='firstName'>
                   First Name
                 </Label>
-                <Controller
+                {/* <Controller
                   defaultValue=''
                   control={control}
                   id='firstName'
@@ -279,13 +280,13 @@ const UserInfoCard = ({ selectedUser }) => {
                   render={({ field }) => (
                     <Input {...field} id='firstName' placeholder='John' invalid={errors.firstName && true} />
                   )}
-                />
+                /> */}
               </Col>
               <Col md={6} xs={12}>
                 <Label className='form-label' for='lastName'>
                   Last Name
                 </Label>
-                <Controller
+                {/* <Controller
                   defaultValue=''
                   control={control}
                   id='lastName'
@@ -293,13 +294,13 @@ const UserInfoCard = ({ selectedUser }) => {
                   render={({ field }) => (
                     <Input {...field} id='lastName' placeholder='Doe' invalid={errors.lastName && true} />
                   )}
-                />
+                /> */}
               </Col>
               <Col xs={12}>
                 <Label className='form-label' for='username'>
                   Username
                 </Label>
-                <Controller
+                {/* <Controller
                   defaultValue=''
                   control={control}
                   id='username'
@@ -307,9 +308,9 @@ const UserInfoCard = ({ selectedUser }) => {
                   render={({ field }) => (
                     <Input {...field} id='username' placeholder='john.doe.007' invalid={errors.username && true} />
                   )}
-                />
+                /> */}
               </Col>
-              <Col md={6} xs={12}>
+              {/* <Col md={6} xs={12}>
                 <Label className='form-label' for='billing-email'>
                   Billing Email
                 </Label>
@@ -319,8 +320,8 @@ const UserInfoCard = ({ selectedUser }) => {
                   defaultValue={selectedUser.email}
                   placeholder='example@domain.com'
                 />
-              </Col>
-              <Col md={6} xs={12}>
+              </Col> */}
+              {/* <Col md={6} xs={12}>
                 <Label className='form-label' for='status'>
                   Status:
                 </Label>
@@ -333,8 +334,8 @@ const UserInfoCard = ({ selectedUser }) => {
                   theme={selectThemeColors}
                   defaultValue={statusOptions[statusOptions.findIndex(i => i.value === selectedUser.status)]}
                 />
-              </Col>
-              <Col md={6} xs={12}>
+              </Col> */}
+              {/* <Col md={6} xs={12}>
                 <Label className='form-label' for='tax-id'>
                   Tax ID
                 </Label>
@@ -343,8 +344,8 @@ const UserInfoCard = ({ selectedUser }) => {
                   placeholder='Tax-1234'
                   defaultValue={selectedUser.contact.substr(selectedUser.contact.length - 4)}
                 />
-              </Col>
-              <Col md={6} xs={12}>
+              </Col> */}
+              {/* <Col md={6} xs={12}>
                 <Label className='form-label' for='contact'>
                   Contact
                 </Label>
@@ -411,7 +412,7 @@ const UserInfoCard = ({ selectedUser }) => {
                 >
                   Discard
                 </Button>
-              </Col>
+              </Col> */}
             </Row>
           </Form>
         </ModalBody>
