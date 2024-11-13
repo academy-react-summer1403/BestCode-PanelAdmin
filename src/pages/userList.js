@@ -1,15 +1,10 @@
 import React from "react";
-import { Card, CardBody } from "reactstrap";
-import RippleButton from "../@core/components/ripple-button";
-
+import UserList from "../views/apps/user/list/index"
 const userList = () => {
 
   return (
-    <Card>
-      <CardBody>
-        <RippleButton>Submit</RippleButton>
-      </CardBody>
-    </Card>
+     
+     <UserList/>
   );
 };
 
