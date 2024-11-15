@@ -62,7 +62,7 @@ const Sales = props => {
           stops: [0, 100, 100, 100]
         }
       },
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      labels: ['React.js', 'Node.js', 'Angolar', 'Next.js', 'HTML', 'css'],
       markers: {
         size: 0
       },
@@ -90,10 +90,10 @@ const Sales = props => {
     <Card>
       <CardHeader className='d-flex justify-content-between align-items-start pb-1'>
         <div>
-          <CardTitle className='mb-25' tag='h4'>
-            Sales
+          <CardTitle className='mb-25 h2' tag='h4'>
+            پر فروش ترین دوره ها
           </CardTitle>
-          <CardText>Last 6 months</CardText>
+          <CardText> 6 ماه اخیر </CardText>
         </div>
 
         <UncontrolledDropdown className='chart-dropdown'>
@@ -101,9 +101,9 @@ const Sales = props => {
             <MoreVertical size={18} className='cursor-pointer' />
           </DropdownToggle>
           <DropdownMenu end>
-            <DropdownItem className='w-100'>Last 28 Days</DropdownItem>
-            <DropdownItem className='w-100'>Last Month</DropdownItem>
-            <DropdownItem className='w-100'>Last Year</DropdownItem>
+            <DropdownItem className='w-100'>28 روز اخیر</DropdownItem>
+            <DropdownItem className='w-100'>ماه اخیر</DropdownItem>
+            <DropdownItem className='w-100'>سال قبل</DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
       </CardHeader>
@@ -112,13 +112,13 @@ const Sales = props => {
         <div className='d-inline-block me-1'>
           <div className='d-flex align-items-center'>
             <Circle size={13} className='text-primary me-50' />
-            <h6 className='mb-0'>Sales</h6>
+            <h6 className='mb-0'>فروش</h6>
           </div>
         </div>
         <div className='d-inline-block'>
           <div className='d-flex align-items-center'>
             <Circle size={13} className='text-info me-50' />
-            <h6 className='mb-0'>Visits</h6>
+            <h6 className='mb-0'>بازدید</h6>
           </div>
         </div>
         <Chart options={options} series={series} type='radar' height={300} />

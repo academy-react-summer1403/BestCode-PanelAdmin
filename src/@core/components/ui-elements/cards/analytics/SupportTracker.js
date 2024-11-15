@@ -22,12 +22,12 @@ import {
 
 const SupportTracker = props => {
   // ** State
-  const [data, setData] = useState(null)
+  // const [data, setData] = useState(null)
 
-  useEffect(() => {
-    axios.get('/card/card-analytics/support-tracker').then(res => setData(res.data))
-    return () => setData(null)
-  }, [])
+  // useEffect(() => {
+  //   axios.get('/card/card-analytics/support-tracker').then(res => setData(res.data))
+  //   return () => setData(null)
+  // }, [])
 
   const options = {
       plotOptions: {
@@ -74,32 +74,31 @@ const SupportTracker = props => {
       stroke: {
         dashArray: 8
       },
-      labels: ['Completed Tickets']
+      labels: [' کاربران ورودی جدید ']
     },
-    series = [83]
+    series = [65]
 
-  return data !== null ? (
+  return  (
     <Card>
       <CardHeader className='pb-0'>
-        <CardTitle tag='h4'>{data.title}</CardTitle>
+        <CardTitle tag='h4'>{' پرظرفدار ترین دوره '}</CardTitle>
         <UncontrolledDropdown className='chart-dropdown'>
           <DropdownToggle color='' className='bg-transparent btn-sm border-0 p-50'>
-            Last 7 days
+           در 7 روز گدشته
           </DropdownToggle>
           <DropdownMenu end>
-            {data.last_days.map(item => (
-              <DropdownItem className='w-100' key={item}>
-                {item}
+           
+              <DropdownItem className='w-100' >
+                {'l,km'}
               </DropdownItem>
-            ))}
           </DropdownMenu>
         </UncontrolledDropdown>
       </CardHeader>
       <CardBody>
         <Row>
           <Col sm='2' className='d-flex flex-column flex-wrap text-center'>
-            <h1 className='font-large-2 fw-bolder mt-2 mb-0'>{data.totalTicket}</h1>
-            <CardText>Tickets</CardText>
+            <h1 className=' fw-bolder mt-2 mb-0'>{'React.js'}</h1>
+            <CardText>دوره</CardText>
           </Col>
           <Col sm='10' className='d-flex justify-content-center'>
             <Chart options={options} series={series} type='radialBar' height={270} id='support-tracker-card' />
@@ -107,20 +106,20 @@ const SupportTracker = props => {
         </Row>
         <div className='d-flex justify-content-between mt-1'>
           <div className='text-center'>
-            <CardText className='mb-50'>New Tickets</CardText>
-            <span className='font-large-1 fw-bold'>{data.newTicket}</span>
+            <CardText className='mb-50'>کاربران جدید</CardText>
+            <span className='font-large-1 fw-bold'>{'616'}</span>
           </div>
           <div className='text-center'>
-            <CardText className='mb-50'>Open Tickets</CardText>
-            <span className='font-large-1 fw-bold'>{data.openTicket}</span>
+            <CardText className='mb-50'>کاربران قدیمی</CardText>
+            <span className='font-large-1 fw-bold'>{'123'}</span>
           </div>
           <div className='text-center'>
-            <CardText className='mb-50'>Response Time</CardText>
-            <span className='font-large-1 fw-bold'>{data.responseTime}d</span>
+            <CardText className='mb-50'>تاریخ پایان دوره</CardText>
+            <span className='font-large-1 fw-bold'>{'1403/9/10'}</span>
           </div>
         </div>
       </CardBody>
     </Card>
-  ) : null
+  )
 }
 export default SupportTracker

@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react'
 
 // ** Third Party Components
-import axios from 'axios'
 import Chart from 'react-apexcharts'
 import { HelpCircle } from 'react-feather'
 
@@ -11,13 +10,8 @@ import { Card, CardHeader, CardTitle, CardBody, CardText, Row, Col } from 'react
 
 const GoalOverview = props => {
   // ** State
-  const [data, setData] = useState(null)
 
-  useEffect(() => {
-    axios.get('/card/card-analytics/goal-overview').then(res => setData(res.data))
-    return () => setData(null)
-  }, [])
-
+  
   const options = {
       chart: {
         sparkline: {
@@ -31,7 +25,7 @@ const GoalOverview = props => {
           opacity: 0.1
         }
       },
-      colors: ['#51e5a8'],
+      colors: ['orange'],
       plotOptions: {
         radialBar: {
           offsetY: 10,
@@ -79,28 +73,28 @@ const GoalOverview = props => {
         }
       }
     },
-    series = [83]
+    series = [40]
 
-  return data !== null ? (
+  return  (
     <Card>
       <CardHeader>
-        <CardTitle tag='h4'>Goal Overview</CardTitle>
+        <CardTitle tag='h4'> درصد کاربران پرداخت کرده </CardTitle>
         <HelpCircle size={18} className='text-muted cursor-pointer' />
       </CardHeader>
       <CardBody className='p-0'>
-        <Chart options={options} series={series} type='radialBar' height={245} />
+        <Chart options={options} series={series} type='radialBar' height={300} />
       </CardBody>
       <Row className='border-top text-center mx-0'>
         <Col xs='6' className='border-end py-1'>
-          <CardText className='text-muted mb-0'>Completed</CardText>
-          <h3 className='fw-bolder mb-0'>{data.completed}</h3>
+          <CardText className='text-muted mb-0'> پرداخت کرده </CardText>
+          <h3 className='fw-bolder mb-0'>{'40%'}</h3>
         </Col>
         <Col xs='6' className='py-1'>
-          <CardText className='text-muted mb-0'>In Progress</CardText>
-          <h3 className='fw-bolder mb-0'>{data.inProgress}</h3>
+          <CardText className='text-muted mb-0'> پرداخت نکرده </CardText>
+          <h3 className='fw-bolder mb-0'>{'60%'}</h3>
         </Col>
       </Row>
     </Card>
-  ) : null
+  ) 
 }
 export default GoalOverview

@@ -12,25 +12,25 @@ const StatsCard = ({ cols }) => {
   const data = [
     {
       title: '230k',
-      subtitle: 'Sales',
+      subtitle: ' فروش ',
       color: 'light-primary',
       icon: <TrendingUp size={24} />
     },
     {
       title: '8.549k',
-      subtitle: 'Customers',
+      subtitle: 'کاربران',
       color: 'light-info',
       icon: <User size={24} />
     },
     {
       title: '1.423k',
-      subtitle: 'Products',
+      subtitle: 'دوره ها',
       color: 'light-danger',
       icon: <Box size={24} />
     },
     {
       title: '$9745',
-      subtitle: 'Revenue',
+      subtitle: 'درامد',
       color: 'light-success',
       icon: <DollarSign size={24} />
     }
@@ -52,7 +52,7 @@ const StatsCard = ({ cols }) => {
             <Avatar color={item.color} icon={item.icon} className='me-2' />
             <div className='my-auto'>
               <h4 className='fw-bolder mb-0'>{item.title}</h4>
-              <CardText className='font-small-3 mb-0'>{item.subtitle}</CardText>
+              <CardText className=' mb-0'>{item.subtitle}</CardText>
             </div>
           </div>
         </Col>
@@ -63,8 +63,8 @@ const StatsCard = ({ cols }) => {
   return (
     <Card className='card-statistics'>
       <CardHeader>
-        <CardTitle tag='h4'>Statistics</CardTitle>
-        <CardText className='card-text font-small-2 me-25 mb-0'>Updated 1 month ago</CardText>
+        <CardTitle tag='h4'>آمار سایت</CardTitle>
+        <CardText className='card-text font-small-2 me-25 mb-0'> آخرین تغییرات یک ماه پیش </CardText>
       </CardHeader>
       <CardBody className='statistics-body'>
         <Row>{renderData()}</Row>

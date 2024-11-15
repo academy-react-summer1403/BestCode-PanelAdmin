@@ -16,21 +16,21 @@ import {
 } from 'reactstrap'
 
 // ** Icons Imports
-import operaIcons from '@src/assets/images/icons/opera.png'
-import safariIcon from '@src/assets/images/icons/apple-safari.png'
-import IEIcon from '@src/assets/images/icons/internet-explorer.png'
-import chromeIcon from '@src/assets/images/icons/google-chrome.png'
-import firefoxIcon from '@src/assets/images/icons/mozila-firefox.png'
+import Ostad from '../../../../../assets/images/avatars/6-small.png'
+import daneshjo from '../../../../../assets/images/avatars/1-small.png'
+import Admin from '../../../../../assets/images/avatars/2-small.png'
+import User from '../../../../../assets/images/avatars/8-small.png'
+import BadUser from '../../../../../assets/images/avatars/4-small.png'
 
 const CardBrowserState = ({ colors, trackBgColor }) => {
   const statesArr = [
     {
-      avatar: chromeIcon,
-      title: 'Google Chrome',
-      value: '54.4%',
+      avatar: daneshjo,
+      title: ' دانشجویان ',
+      value: '40%',
       chart: {
         type: 'radialBar',
-        series: [54.4],
+        series: [40],
         height: 30,
         width: 30,
         options: {
@@ -70,12 +70,12 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
       }
     },
     {
-      avatar: firefoxIcon,
-      title: 'Mozila Firefox',
-      value: '6.1%',
+      avatar: Ostad,
+      title: ' اساتید ',
+      value: '20%',
       chart: {
         type: 'radialBar',
-        series: [6.1],
+        series: [20],
         height: 30,
         width: 30,
         options: {
@@ -115,12 +115,12 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
       }
     },
     {
-      avatar: safariIcon,
-      title: 'Apple Safari',
-      value: '14.6%',
+      avatar: Admin,
+      title: 'ادمین ها',
+      value: '5%',
       chart: {
         type: 'radialBar',
-        series: [14.6],
+        series: [5],
         height: 30,
         width: 30,
         options: {
@@ -160,12 +160,12 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
       }
     },
     {
-      avatar: IEIcon,
-      title: 'Internet Explorer',
-      value: '4.2%',
+      avatar: User,
+      title: ' کاربران ثبت شده ',
+      value: '15%',
       chart: {
         type: 'radialBar',
-        series: [4.2],
+        series: [15],
         height: 30,
         width: 30,
         options: {
@@ -205,12 +205,12 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
       }
     },
     {
-      avatar: operaIcons,
-      title: 'Opera Mini',
-      value: '8.4%',
+      avatar: BadUser,
+      title: ' کاربران ثبت نشده ',
+      value: '20%',
       chart: {
         type: 'radialBar',
-        series: [8.4],
+        series: [20],
         height: 30,
         width: 30,
         options: {
@@ -278,8 +278,8 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
     <Card className='card-browser-states'>
       <CardHeader>
         <div>
-          <CardTitle tag='h4'>Browser States</CardTitle>
-          <CardText className='font-small-2'>Counter August 2020</CardText>
+          <CardTitle tag='h4'>انواع کاربران</CardTitle>
+          <CardText className='font-small-2'> شمارش 1403 </CardText>
         </div>
         <UncontrolledDropdown className='chart-dropdown'>
           <DropdownToggle color='' className='bg-transparent btn-sm border-0 p-50'>
