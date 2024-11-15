@@ -1,6 +1,6 @@
 // ** React Imports
 import { useSkin } from "@hooks/useSkin";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // ** Icons Imports
 import { Facebook, Twitter, Mail, GitHub } from "react-feather";
@@ -26,9 +26,34 @@ import illustrationsDark from "@src/assets/images/pages/login-v2-dark.svg";
 
 // ** Styles
 import "@styles/react/pages/page-authentication.scss";
+import { useState } from "react";
+import { loginAPI } from "../core/services/api/auth";
+import { setItem } from "../core/services/common/storage.services";
 
 const Login = () => {
   const { skin } = useSkin();
+const navigate=useNavigate()
+  const [userName,setUserName] = useState("") ;
+  const [password,setPassword] = useState("") ;
+
+  const HandelSumbit =async ()=> {
+    try {
+  
+  
+     const result = await loginAPI({phoneOrGmail:userName , password:password , rememberMe:false})
+     console.log(result)
+     if(result.success){
+       setItem("token",result.token)
+       navigate("/home")
+     }
+    } catch (error) {
+      
+      return  []
+      
+    }
+  }
+
+
 
   const source = skin === "dark" ? illustrationsDark : illustrationsLight;
 
@@ -123,7 +148,7 @@ const Login = () => {
             </CardText>
             <Form
               className="auth-login-form mt-2"
-              onSubmit={(e) => e.preventDefault()}
+              // onSubmit={HandelSumbit}
             >
               <div className="mb-1">
                 <Label className="form-label" for="login-email">
@@ -134,6 +159,7 @@ const Login = () => {
                   id="login-email"
                   placeholder="john@example.com"
                   autoFocus
+                  onChange={(e)=> setUserName(e.target.value)}
                 />
               </div>
               <div className="mb-1">
@@ -148,6 +174,7 @@ const Login = () => {
                 <InputPasswordToggle
                   className="input-group-merge"
                   id="login-password"
+                  setPassword={setPassword}
                 />
               </div>
               <div className="form-check mb-1">
@@ -156,7 +183,7 @@ const Login = () => {
                   Remember Me
                 </Label>
               </div>
-              <Button tag={Link} to="/" color="primary" block>
+              <Button onClick={HandelSumbit} color="primary" block>
                 Sign in
               </Button>
             </Form>

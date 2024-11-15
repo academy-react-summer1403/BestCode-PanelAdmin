@@ -1,30 +1,60 @@
-import { Mail, Home, Airplay, Circle } from "react-feather";
+import { Mail, Home, Airplay, Circle, UserCheck, Tool } from "react-feather";
 
 export default [
   {
     id: "home",
-    title: "Home",
+    title: "داشبورد",
     icon: <Home size={20} />,
     navLink: "/home",
   },
   {
-    id: "secondPage",
-    title: "Second Page",
-    icon: <Mail size={20} />,
-    navLink: "/second-page",
-  },
-  {
-    id: "smaplePage",
-    title: "Sample Page",
-    icon: <Airplay size={20} />,
-    // navLink: "/sample",
+    id: "CourseManagemet",
+    title: "مدیریت دوره ها",
+    icon: <Tool size={20} />,
+    // navLink: "/Course",
     children: [
       {
-        id: "invoiceList",
-        title: "List",
+        id: "courseList",
+        title: "لیست دوره ها",
         icon: <Circle size={12} />,
-        navLink: "/apps/invoice/list",
+        navLink: "/courseManagement/courseList",
       },
+      {
+        id: "/AddnewCourse",
+        title: " افزودن دوره جدید ",
+        icon: <Circle size={12} />,
+        navLink: "/courseManagement/AddnewCourse",
+      },
+
     ],
+  },
+  {
+    id: "userManagement",
+    title: "مدیریت کاربران",
+    icon: <UserCheck size={20} />,
+    navLink: "/userManagement",
+    children: [
+      {
+        id: "userList",
+        title: "لیست کاربران",
+        icon: <Circle size={12} />,
+        navLink: "/userManagement/userList",
+      },
+
+    ],
+  },
+  {
+    id: "newsManagement",
+    title: "مدیریت اخبار و مقالات",
+    icon: <Airplay size={20} />,
+    navLink: "/newsManagement",
+    
+  },
+  {
+    id: "CommentsManagement",
+    title: "مدیریت کامنت ها",
+    icon: <Mail size={20} />,
+    navLink: "/commentsManagement",
+    
   },
 ];

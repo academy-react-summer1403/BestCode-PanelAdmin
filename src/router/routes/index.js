@@ -12,6 +12,7 @@ import PublicRoute from "@components/routes/PublicRoute";
 
 // ** Utils
 import { isObjEmpty } from "@utils";
+import { User } from "react-feather";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -26,12 +27,19 @@ const TemplateTitle = "%s - Vuexy React Admin Template";
 const DefaultRoute = "/home";
 
 const Home = lazy(() => import("../../pages/Home"));
-const SecondPage = lazy(() => import("../../pages/SecondPage"));
+const CourseList = lazy(() => import("../../pages/CourseList"));
+const CourseDetail = lazy(() => import("../../pages/CourseDetail"));
+const UserList = lazy(() => import("../../pages/userList"));
+const NewsManagement = lazy(() => import("../../pages/newsManagement"));
+const CommentsManagement = lazy(() => import("../../pages/commentsManagement"));
+const AddnewCourse = lazy(() => import("../../pages/AddnewCourse"));
+
+
+
 const Login = lazy(() => import("../../pages/Login"));
 const Register = lazy(() => import("../../pages/Register"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
 const Error = lazy(() => import("../../pages/Error"));
-const Sample = lazy(() => import("../../pages/Sample"));
 
 // ** Merge Routes
 const Routes = [
@@ -45,12 +53,28 @@ const Routes = [
     element: <Home />,
   },
   {
-    path: "/sample",
-    element: <Sample />,
+    path: "/courseManagement/courseList",
+    element: <CourseList />,
   },
   {
-    path: "/second-page",
-    element: <SecondPage />,
+    path: "/courseManagement/AddnewCourse",
+    element: <AddnewCourse />,
+  },
+  {
+    path: "/courseManagement/CourseDetail",
+    element: <CourseDetail />,
+  },
+  {
+    path: "/userManagement/userList",
+    element: <UserList />,
+  },
+  {
+    path: "/newsManagement",
+    element: <NewsManagement />,
+  },
+  {
+    path: "/commentsManagement",
+    element: <CommentsManagement />,
   },
   {
     path: "/login",
