@@ -3,7 +3,6 @@ import UserList from "../views/apps/user/list/index"
 const userList = () => {
 
   return (
-     
      <UserList/>
   );
 };

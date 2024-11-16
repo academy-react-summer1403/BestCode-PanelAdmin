@@ -177,9 +177,9 @@ const UsersList = () => {
   const [sortColumn, setSortColumn] = useState('id')
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
-  const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
-  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
+  const [currentRole, setCurrentRole] = useState({ value: '', label: 'انتخاب کنید...' })
+  const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'انتخاب کنید...' })
+  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'انتخاب کنید...', number: 0 })
 
   // // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
@@ -203,27 +203,27 @@ const UsersList = () => {
 
   // // ** User filter options
   const roleOptions = [
-    { value: '', label: 'Select Role' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'maintainer', label: 'Maintainer' },
-    { value: 'subscriber', label: 'Subscriber' }
+    { value: '', label: ' انتخاب کنید...' },
+    { value: 'استاد', label: 'استاد' },
+    { value: 'ادمین', label: 'ادمین' },
+    { value: 'دانشجو', label: 'دانشجو' },
+    // { value: 'editor', label: 'Editor' },
+    // { value: 'maintainer', label: 'Maintainer' },
+    // { value: 'subscriber', label: 'Subscriber' }
   ]
 
   const planOptions = [
-    { value: '', label: 'Select Plan' },
-    { value: 'basic', label: 'Basic' },
-    { value: 'company', label: 'Company' },
-    { value: 'enterprise', label: 'Enterprise' },
-    { value: 'team', label: 'Team' }
+    { value: '', label: ' انتخاب کنید...' },
+    { value: 'فعال', label: 'فعال' },
+    { value: 'غیرفعال', label: 'غیرفعال' },
+    
   ]
 
   const statusOptions = [
-    { value: '', label: 'Select Status', number: 0 },
-    { value: 'pending', label: 'Pending', number: 1 },
-    { value: 'active', label: 'Active', number: 2 },
-    { value: 'inactive', label: 'Inactive', number: 3 }
+    { value: '', label: ' انتخاب کنید...' },
+    { value: 'جدید ترین', label: 'جدید ترین', number: 1 },
+    { value: 'قدیمی ترین ', label: 'قدیمی ترین ', number: 2 },
+    { value: 'محبوب ترین ', label: ' محبوب ترین ', number: 3 }
   ]
 
   // // ** Function in get data on page change
@@ -346,7 +346,7 @@ const data=[{name:'reza', fname:'rezaii',email:'reza123@gmail',age:27, student:'
 
 const columnn=[
   {
-    name: 'User',
+    name: 'پروفایل کاربر',
     sortable: true,
     minWidth: '300px',
     sortField: 'fullName',
@@ -373,26 +373,26 @@ const columnn=[
     // cell: row => renderRole(row)
   },
   {
-    name: 'Role',
+    name: 'نام خوانوادگی',
     sortable: true,
     minWidth: '172px',
-    sortField: 'role',
+    sortField: 'last name',
     selector: row => row.fname,
     // cell: row => renderRole(row)
   },
   {
-    name: 'Role',
+    name: 'ایمیل',
     sortable: true,
     minWidth: '172px',
-    sortField: 'role',
+    sortField: 'Email',
     selector: row => row.email,
     // cell: row => renderRole(row)
   },
   {
-    name: 'Role',
+    name: 'سن',
     sortable: true,
     minWidth: '172px',
-    sortField: 'role',
+    sortField: 'age',
     selector: row => row.age,
     // cell: row => renderRole(row)
   },
@@ -413,7 +413,7 @@ const columnn=[
               // onClick={() => store.dispatch(getUser(row.id))}
             >
               <FileText size={14} className='me-50' />
-              <span className='align-middle'>Details</span>
+              <span className='align-middle'> اظلاعات </span>
             </DropdownItem>
             <DropdownItem 
             // tag='a'
@@ -422,7 +422,7 @@ const columnn=[
             //   onClick={e => e.preventDefault()}
               >
               <Archive size={14} className='me-50' />
-              <span className='align-middle'>Edit</span>
+              <span className='align-middle'> تنظیمات </span>
 
             </DropdownItem>
             <DropdownItem
@@ -436,7 +436,7 @@ const columnn=[
             // }
             >
               <Trash2 size={14} className='me-50' />
-              <span className='align-middle'>Delete</span>
+              <span className='align-middle'>حذف</span>
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
@@ -449,12 +449,12 @@ const columnn=[
 
       <Card>
         <CardHeader>
-          <CardTitle tag='h4'>Filters</CardTitle>
+          <h2 tag='h2'>فیلتر</h2>
         </CardHeader>
         <CardBody>
           <Row>
             <Col md='4'>
-              <Label for='role-select'>Role</Label>
+              <h4 for='role-select'>سمت</h4>
               <Select
                 isClearable={false}
                 value={currentRole}
@@ -480,7 +480,7 @@ const columnn=[
               />
             </Col>
             <Col className='my-md-0 my-1' md='4'>
-              <Label for='plan-select'>Plan</Label>
+              <h4 for='plan-select'>وضعیت</h4>
               <Select
                 theme={selectThemeColors}
                 isClearable={false}
@@ -506,7 +506,7 @@ const columnn=[
               />
             </Col>
             <Col md='4'>
-              <Label for='status-select'>Status</Label>
+              <h4 for='status-select'>مرتب سازی بر اساس</h4>
               <Select
                 theme={selectThemeColors}
                 isClearable={false}

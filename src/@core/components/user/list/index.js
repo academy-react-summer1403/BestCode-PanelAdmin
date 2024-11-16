@@ -21,7 +21,7 @@ const UsersList = () => {
         <Col lg='3' sm='6'>
           <StatsHorizontal
             color='primary'
-            statTitle='Total Users'
+            statTitle=' جمع کاربران '
             icon={<User size={20} />}
             renderStats={<h3 className='fw-bolder mb-75'>21,459</h3>}
           />
@@ -29,7 +29,7 @@ const UsersList = () => {
         <Col lg='3' sm='6'>
           <StatsHorizontal
             color='danger'
-            statTitle='Paid Users'
+            statTitle=' کاربران جدید این ماه '
             icon={<UserPlus size={20} />}
             renderStats={<h3 className='fw-bolder mb-75'>4,567</h3>}
           />
@@ -37,7 +37,7 @@ const UsersList = () => {
         <Col lg='3' sm='6'>
           <StatsHorizontal
             color='success'
-            statTitle='Active Users'
+            statTitle=' کاربران فعال '
             icon={<UserCheck size={20} />}
             renderStats={<h3 className='fw-bolder mb-75'>19,860</h3>}
           />
@@ -45,7 +45,7 @@ const UsersList = () => {
         <Col lg='3' sm='6'>
           <StatsHorizontal
             color='warning'
-            statTitle='Pending Users'
+            statTitle=' کاربران بلاک شده '
             icon={<UserX size={20} />}
             renderStats={<h3 className='fw-bolder mb-75'>237</h3>}
           />

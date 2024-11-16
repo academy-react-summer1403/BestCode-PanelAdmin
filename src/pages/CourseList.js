@@ -3,7 +3,10 @@ import UsersList from "../@core/components/user/list";
 
 const CourseList = () => {
   return (
-<UsersList />
+         
+           <UsersList /> 
+          
+        
   );
 };
 
