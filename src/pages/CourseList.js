@@ -1,11 +1,9 @@
-import { Card, CardHeader, CardBody, CardTitle, CardText } from "reactstrap";
-import UsersList from "../@core/components/user/list";
+import CourselistHolder from "../@core/layouts/components/CourselistHolder/CourselistHolder";
 
 const CourseList = () => {
   return (
-         
-           <UsersList /> 
-          
+      
+    <CourselistHolder />
         
   );
 };

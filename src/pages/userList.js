@@ -1,9 +1,10 @@
 import React from "react";
-import UserList from "../views/apps/user/list/index"
+import UsersList from "../@core/components/user/list"
+
 const userList = () => {
 
   return (
-     <UserList/>
+      <UsersList/>
   );
 };
 
