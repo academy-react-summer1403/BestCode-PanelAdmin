@@ -1,7 +1,8 @@
 // ** Third Party Components
 import Chart from 'react-apexcharts'
 import { MoreVertical } from 'react-feather'
-
+import { useEffect , useState } from 'react'
+import { getUserlist } from '../../../../../core/services/api/usersmanager'
 // ** Reactstrap Imports
 import {
   Card,
@@ -23,14 +24,61 @@ import User from '../../../../../assets/images/avatars/8-small.png'
 import BadUser from '../../../../../assets/images/avatars/4-small.png'
 
 const CardBrowserState = ({ colors, trackBgColor }) => {
-  const statesArr = [
+  const [userRoles, setUserRoles] = useState([]); 
+  const [percentages, setPercentages] = useState({});
+
+  console.log(percentages)
+
+  const getUserList1 = async () => {
+    try {
+      const data = await getUserlist();
+      setUserRoles(data?.roles || [])
+    } catch (error) {
+      console.error("Error fetching user roles:", error);
+    }
+  };
+  const calculatePercentages = (roles) => {
+    const totalRoles = roles.reduce((sum, role) => sum + role.roleNumber, 0)
+
+    if (totalRoles === 0) return {}; 
+
+    const calculatedPercentages = {};
+    roles.forEach((role) => {
+      calculatedPercentages[role.roleName] = ((role.roleNumber / totalRoles) * 100).toFixed(2);
+    });
+
+    return calculatedPercentages;
+  };
+
+  useEffect(() => {
+     getUserList1()
+  }, [])
+
+  const studentValue = percentages?.Student ? parseFloat(percentages.Student) : 0;
+  const adminValue  =  percentages?.Administrator ? parseFloat(percentages?.Administrator) : 0;
+  const TeacherValue  =  percentages?.Teacher ? parseFloat(percentages?.Teacher) : 0;
+  const employadminvalue = percentages?.['Employee.Admin'] ? parseFloat(percentages?.['Employee.Admin'] ) : 0;
+  const emlploywritervale =  percentages?.['Employee.Writer'] ? parseFloat(percentages?.['Employee.Writer'] ) : 0;
+  const refreevale = percentages?.Referee ? parseFloat(percentages?.Referee) : 0;
+  const supportvale = percentages?.Support ? parseFloat(percentages?.Support) : 0;
+  const touradminvale = percentages?.TournamentAdmin ? parseFloat(percentages?.TournamentAdmin) : 0;
+  const coursasstance = percentages?.CourseAssistance ? parseFloat(percentages?.CourseAssistance) : 0;
+  const tourMentorvale = percentages?.TournamentMentor ? parseFloat(percentages?.TournamentMentor) : 0;
+  useEffect(() => {
+    if (userRoles.length > 0) {
+      const percentages = calculatePercentages(userRoles);
+      setPercentages(percentages);
+    }
+  }, [userRoles]);
+ 
+   const statesArr = [
     {
       avatar: daneshjo,
       title: ' دانشجویان ',
-      value: '40%',
+      value: percentages?.Student,
       chart: {
         type: 'radialBar',
-        series: [40],
+        series: [studentValue],
         height: 30,
         width: 30,
         options: {
@@ -72,10 +120,10 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
     {
       avatar: Ostad,
       title: ' اساتید ',
-      value: '20%',
+      value: percentages?.Teacher,
       chart: {
         type: 'radialBar',
-        series: [20],
+        series: [TeacherValue],
         height: 30,
         width: 30,
         options: {
@@ -117,10 +165,10 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
     {
       avatar: Admin,
       title: 'ادمین ها',
-      value: '5%',
+      value: percentages?.Administrator,
       chart: {
         type: 'radialBar',
-        series: [5],
+        series: [adminValue],
         height: 30,
         width: 30,
         options: {
@@ -161,11 +209,11 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
     },
     {
       avatar: User,
-      title: ' کاربران ثبت شده ',
-      value: '15%',
+      title: ' کارمند ادمین',
+      value: percentages?.['Employee.Admin'],
       chart: {
         type: 'radialBar',
-        series: [15],
+        series: [employadminvalue],
         height: 30,
         width: 30,
         options: {
@@ -206,11 +254,101 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
     },
     {
       avatar: BadUser,
-      title: ' کاربران ثبت نشده ',
-      value: '20%',
+      title: ' کارمند نویسنده',
+      value: percentages?.['Employee.Writer'],
       chart: {
         type: 'radialBar',
-        series: [20],
+        series: [emlploywritervale],
+        height: 30,
+        width: 30,
+        options: {
+          grid: {
+            show: false,
+            padding: {
+              left: -15,
+              right: -15,
+              top: -12,
+              bottom: -15
+            }
+          },
+          colors: [colors.secondary.main],
+          plotOptions: {
+            radialBar: {
+              hollow: {
+                size: '22%'
+              },
+              track: {
+                background: trackBgColor
+              },
+              dataLabels: {
+                showOn: 'always',
+                name: {
+                  show: false
+                },
+                value: {
+                  show: false
+                }
+              }
+            }
+          },
+          stroke: {
+            lineCap: 'round'
+          }
+        }
+      }
+    },
+    {
+      avatar: BadUser,
+      title: 'داور',
+      value: percentages?.Referee,
+      chart: {
+        type: 'radialBar',
+        series: [refreevale],
+        height: 30,
+        width: 30,
+        options: {
+          grid: {
+            show: false,
+            padding: {
+              left: -15,
+              right: -15,
+              top: -12,
+              bottom: -15
+            }
+          },
+          colors: [colors.warning.main],
+          plotOptions: {
+            radialBar: {
+              hollow: {
+                size: '22%'
+              },
+              track: {
+                background: trackBgColor
+              },
+              dataLabels: {
+                showOn: 'always',
+                name: {
+                  show: false
+                },
+                value: {
+                  show: false
+                }
+              }
+            }
+          },
+          stroke: {
+            lineCap: 'round'
+          }
+        }
+      }
+    },
+    {
+      avatar: BadUser,
+      title: ' پشتیبانی',
+      value: percentages?.Support,
+      chart: {
+        type: 'radialBar',
+        series: [supportvale],
         height: 30,
         width: 30,
         options: {
@@ -248,7 +386,142 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
           }
         }
       }
-    }
+    },
+    {
+      avatar: BadUser,
+      title: 'مدیریت مسابقات ',
+      value: percentages?.TournamentAdmin,
+      chart: {
+        type: 'radialBar',
+        series: [touradminvale],
+        height: 30,
+        width: 30,
+        options: {
+          grid: {
+            show: false,
+            padding: {
+              left: -15,
+              right: -15,
+              top: -12,
+              bottom: -15
+            }
+          },
+          colors: [colors.info.main],
+          plotOptions: {
+            radialBar: {
+              hollow: {
+                size: '22%'
+              },
+              track: {
+                background: trackBgColor
+              },
+              dataLabels: {
+                showOn: 'always',
+                name: {
+                  show: false
+                },
+                value: {
+                  show: false
+                }
+              }
+            }
+          },
+          stroke: {
+            lineCap: 'round'
+          }
+        }
+      }
+    },
+    {
+      avatar: BadUser,
+      title: ' کمک دوره',
+      value: percentages?.CourseAssistance,
+      chart: {
+        type: 'radialBar',
+        series: [coursasstance],
+        height: 30,
+        width: 30,
+        options: {
+          grid: {
+            show: false,
+            padding: {
+              left: -15,
+              right: -15,
+              top: -12,
+              bottom: -15
+            }
+          },
+          colors: [colors.danger.main],
+          plotOptions: {
+            radialBar: {
+              hollow: {
+                size: '22%'
+              },
+              track: {
+                background: trackBgColor
+              },
+              dataLabels: {
+                showOn: 'always',
+                name: {
+                  show: false
+                },
+                value: {
+                  show: false
+                }
+              }
+            }
+          },
+          stroke: {
+            lineCap: 'round'
+          }
+        }
+      }
+    },
+    {
+      avatar: BadUser,
+      title: ' مربی مسابقات',
+      value: percentages?.TournamentMentor,
+      chart: {
+        type: 'radialBar',
+        series: [tourMentorvale],
+        height: 30,
+        width: 30,
+        options: {
+          grid: {
+            show: false,
+            padding: {
+              left: -15,
+              right: -15,
+              top: -12,
+              bottom: -15
+            }
+          },
+          colors: [colors.dark.main],
+          plotOptions: {
+            radialBar: {
+              hollow: {
+                size: '22%'
+              },
+              track: {
+                background: trackBgColor
+              },
+              dataLabels: {
+                showOn: 'always',
+                name: {
+                  show: false
+                },
+                value: {
+                  show: false
+                }
+              }
+            }
+          },
+          stroke: {
+            lineCap: 'round'
+          }
+        }
+      }
+    },
   ]
 
   const renderStates = () => {
