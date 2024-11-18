@@ -20,32 +20,32 @@ const WizardVertical = () => {
   const steps = [
     {
       id: 'account-details',
-      title: 'Account Details',
-      subtitle: 'Enter Your Account Details.',
+      title: ' اطلاعات دوره  ',
+      subtitle: 'اطلاعات تکمیلی را بنویسید',
       content: <AccountDetails stepper={stepper} type='wizard-vertical' />
     },
     {
       id: 'personal-info',
-      title: 'Personal Info',
-      subtitle: 'Add Personal Info',
+      title: ' اطلاعات استاد ',
+      subtitle: '  اطلاعات استاد را وارد کنید ',
       content: <PersonalInfo stepper={stepper} type='wizard-vertical' />
     },
     {
       id: 'step-address',
-      title: 'Address',
-      subtitle: 'Add Address',
+      title: 'تاریخ شروع و پایان دوره',
+      subtitle: ' تاریخ را وارد کنید ',
       content: <Address stepper={stepper} type='wizard-vertical' />
     },
     {
       id: 'social-links',
-      title: 'Social Links',
-      subtitle: 'Add Social Links',
+      title: ' راه های ارتباطی ',
+      subtitle: '  راه های ارتباطی با استاد را وارد کنید ',
       content: <SocialLinks stepper={stepper} type='wizard-vertical' />
     }
   ]
 
   return (
-    <div className='vertical-wizard'>
+    <div className='vertical-wizard '>
       <Wizard
         type='vertical'
         ref={ref}
