@@ -29,6 +29,8 @@ const DefaultRoute = "/home";
 const Home = lazy(() => import("../../pages/Home"));
 const CourseList = lazy(() => import("../../pages/CourseList"));
 const CourseDetail = lazy(() => import("../../pages/CourseDetail"));
+const UserDetail = lazy(() => import("../../pages/UserDetail"));
+
 const UserList = lazy(() => import("../../pages/userList"));
 const NewsManagement = lazy(() => import("../../pages/newsManagement"));
 const CommentsManagement = lazy(() => import("../../pages/commentsManagement"));
@@ -67,6 +69,10 @@ const Routes = [
   {
     path: "/userManagement/userList",
     element: <UserList />,
+  },
+  {
+    path: "/userManagement/userDetail",
+    element: <UserDetail />,
   },
   {
     path: "/newsManagement",
