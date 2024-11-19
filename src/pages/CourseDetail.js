@@ -1,11 +1,10 @@
 import React from 'react'
-import UserView from '../views/apps/user/view'
-
+import CoursedetailHolder from '../@core/layouts/components/CoursedetailHolder/index'
 
 const CourseDetail = () => {
   return (
     <>
-       <UserView />
+       <CoursedetailHolder />
     </>
   )
 }
