@@ -27,7 +27,6 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
   const [userRoles, setUserRoles] = useState([]); 
   const [percentages, setPercentages] = useState({});
 
-  console.log(percentages)
 
   const getUserList1 = async () => {
     try {
