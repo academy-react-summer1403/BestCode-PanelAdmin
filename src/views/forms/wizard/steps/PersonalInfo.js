@@ -35,61 +35,47 @@ const PersonalInfo = ({ stepper, type }) => {
   return (
     <Fragment>
       <div className='content-header'>
-        <h5 className='mb-0'>Personal Info</h5>
-        <small>Enter Your Personal Info.</small>
+        <h5 className='mb-0'> اطلاعات استاد </h5>
+        <small> اطلاعات استاد دوره</small>
       </div>
       <Form onSubmit={e => e.preventDefault()}>
-        <Row>
+        <Row className='d-flex flex-column'>
           <Col md='6' className='mb-1'>
             <Label className='form-label' for={`first-name-${type}`}>
-              First Name
+              نام استاد
             </Label>
-            <Input type='text' name='first-name' id={`first-name-${type}`} placeholder='John' />
+            <Input type='text' name='first-name' id={`first-name-${type}`} />
           </Col>
           <Col md='6' className='mb-1'>
             <Label className='form-label' for={`last-name-${type}`}>
-              Last Name
+              نام خوانوادگی استاد
             </Label>
-            <Input type='text' name='last-name' id={`last-name-${type}`} placeholder='Doe' />
+            <Input type='text' name='last-name' id={`last-name-${type}`}  />
           </Col>
-        </Row>
-        <Row>
+        </Row >
+        <Row className='d-flex flex-column'>
           <Col md='6' className='mb-1'>
             <Label className='form-label' for={`country-${type}`}>
-              Country
+             رزومه استاد
             </Label>
-            <Select
-              theme={selectThemeColors}
-              isClearable={false}
-              id={`country-${type}`}
-              className='react-select'
-              classNamePrefix='select'
-              options={countryOptions}
-              defaultValue={countryOptions[0]}
-            />
+            <Input type='text' name='last-name' id={`last-name-${type}`}  />
+
           </Col>
           <Col md='6' className='mb-1'>
             <Label className='form-label' for={`language-${type}`}>
-              Language
+              نام کاربری استاد
             </Label>
-            <Select
-              isMulti
-              isClearable={false}
-              theme={selectThemeColors}
-              id={`language-${type}`}
-              options={languageOptions}
-              className='react-select'
-              classNamePrefix='select'
-            />
+            <Input type='text' name='last-name' id={`last-name-${type}`}  />
+
           </Col>
         </Row>
         <div className='d-flex justify-content-between'>
           <Button color='primary' className='btn-prev' onClick={() => stepper.previous()}>
             <ArrowLeft size={14} className='align-middle me-sm-25 me-0'></ArrowLeft>
-            <span className='align-middle d-sm-inline-block d-none'>Previous</span>
+            <span className='align-middle d-sm-inline-block d-none'> قبلی </span>
           </Button>
           <Button color='primary' className='btn-next' onClick={() => stepper.next()}>
-            <span className='align-middle d-sm-inline-block d-none'>Next</span>
+            <span className='align-middle d-sm-inline-block d-none'>بعدی</span>
             <ArrowRight size={14} className='align-middle ms-sm-25 ms-0'></ArrowRight>
           </Button>
         </div>
