@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Printer, FileText, File, Grid,MoreVertical, Copy, Archive, Trash2 } from 'react-feather'
+import {  FileText, MoreVertical, Check, X, Archive, Trash2 } from 'react-feather'
 
 // // ** Utils
 import { selectThemeColors } from '@utils'
@@ -35,7 +35,11 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  UncontrolledDropdown
+  UncontrolledDropdown,
+  Form,
+  Modal,
+  ModalBody,
+  ModalHeader 
 } from 'reactstrap'
 
 // ** Styles
@@ -169,6 +173,8 @@ const UsersList = () => {
   // // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.users)
+  const [show, setShow] = useState(false)
+
 
   // // ** States
   const [sort, setSort] = useState('desc')
@@ -544,7 +550,7 @@ const columnn=[
         >
           <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
             <label className='mb-0' htmlFor='search-invoice'>
-              Search:
+              جستجو:
             </label>
             <Input
               id='search-invoice'
@@ -561,9 +567,121 @@ const columnn=[
               
             </UncontrolledDropdown>
 
-            <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
-              Add New User
+            <Button className='add-new-user' color='primary' onClick={() => setShow(true)}>
+              اظافه کردن کاربر جدید
             </Button>
+            <Modal isOpen={show} toggle={() => setShow(!show)} className='modal-dialog-centered modal-lg'>
+                 <ModalHeader className='bg-transparent' toggle={() => setShow(!show)}></ModalHeader>
+                  <ModalBody className='px-sm-5 pt-50 pb-5'>
+                    <div className='text-center mb-2'>
+                      <h1 className='mb-1'>    اظافه کردن کاربر  !!! </h1>
+                      {/* <p> !!!با اپدیت کردن اطلاعات کاربر نسخه  قبلی پاک میشود </p> */}
+                    </div>
+                    <Form >
+                      <Row className='gy-1 pt-75'>
+                        
+                        
+                      
+                        <Col md={6} xs={12}>
+                          <Label className='form-label' for='billing-email'>
+                          نام  
+                          </Label>
+                          <Input
+                            type='email'
+                            id='billing-email'
+                            defaultValue={''}
+                            placeholder=' فلان '
+                          />
+                        </Col>
+                        <Col md={6} xs={12}>
+                          <Label className='form-label' for='status'>
+                          نام خوانوادگی
+                          </Label>
+                          <Select
+                            id='status'
+                            isClearable={false}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={statusOptions}
+                            theme={selectThemeColors}
+                            // defaultValue={statusOptions[statusOptions.findIndex(i => i.value === selectedUser.status)]}
+                          />
+                        </Col>
+                        <Col md={6} xs={12}>
+                          <Label className='form-label' for='tax-id'>
+                          وضعیت
+                          </Label>
+                          <Input
+                            id='tax-id'
+                            placeholder='فلانی'
+                            // defaultValue={selectedUser.contact.substr(selectedUser.contact.length - 4)}
+                          />
+                        </Col>
+                        <Col md={6} xs={12}>
+                          <Label className='form-label' for='contact'>
+                          نام کاربری
+                          </Label>
+                          <Input id='contact'
+                          //  defaultValue={selectedUser.contact}
+                          placeholder='ali123' />
+                        </Col>
+                        <Col md={6} xs={12}>
+                          <Label className='form-label' for='language'>
+                            ایمیل
+                          </Label>
+                          <Input id='contact'
+                          //  defaultValue={selectedUser.contact}
+                          placeholder='' />
+                        </Col>
+                        <Col md={6} xs={12}>
+                          <Label className='form-label' for='country'>
+                            شماره
+                          </Label>
+                          <Input
+                          dir='ltr'
+                            id='tax-id'
+                            placeholder='0912 111 1112'
+                            // defaultValue={selectedUser.contact.substr(selectedUser.contact.length - 4)}
+                          />
+                        </Col>
+                        <Col xs={12}>
+                          <div className='d-flex align-items-center mt-1'>
+                            <div className='form-switch'>
+                              <Input type='switch' defaultChecked id='billing-switch' name='billing-switch' />
+                              <Label className='form-check-label' htmlFor='billing-switch'>
+                                <span className='switch-icon-left'>
+                                  <Check size={14} />
+                                </span>
+                                <span className='switch-icon-right'>
+                                  <X size={14} />
+                                </span>
+                              </Label>
+                            </div>
+                            <Label className='form-check-label fw-bolder' for='billing-switch'>
+                              تمام تغییرات ثبت شود
+                            </Label>
+                          </div>
+                        </Col>
+                        <Col xs={12} className='text-center mt-2 pt-50'>
+                          <Button type='submit' className='me-1' color='primary'>
+                            ثبت تغییرات
+                          </Button>
+                          <Button
+                            type='reset'
+                            color='secondary'
+                            outline
+                            // onClick={() => {
+                            //   handleReset()
+                            //   setShow(false)
+                            // }}
+                          >
+                          منصرف شدن
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Form>
+                  </ModalBody>
+            </Modal>
           </div>
         </Col>
           <DataTable
