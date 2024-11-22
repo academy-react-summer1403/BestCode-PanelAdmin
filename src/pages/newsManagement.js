@@ -1,10 +1,10 @@
 import React from 'react'
-import UsersList from '../@core/components/user/list'
+import NewsHolder from '../@core/layouts/components/NewsHolder/NewsHolder'
 
 const newsManagement = () => {
   return (
     <div>
-      <UsersList />
+      <NewsHolder />
     </div>
   )
 }
