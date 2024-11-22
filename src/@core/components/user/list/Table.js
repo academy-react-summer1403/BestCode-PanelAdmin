@@ -536,10 +536,39 @@ const columnn=[
       </Card>
 
       <Card className='overflow-hidden'>
-        <div className='react-dataTable'>
+        
+        <div className='react-dataTable position-relative'>
+        <Col
+          xl='6'
+          className='d-flex align-items-sm-center justify-content-xl-end justify-content-start flex-xl-nowrap flex-wrap flex-sm-row flex-column  position-relative start-50  '
+        >
+          <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
+            <label className='mb-0' htmlFor='search-invoice'>
+              Search:
+            </label>
+            <Input
+              id='search-invoice'
+              className='ms-50 w-100'
+              type='text'
+              value={searchTerm}
+              onChange={e => handleFilter(e.target.value)}
+            />
+          </div>
+
+          <div className='d-flex align-items-center table-header-actions'>
+            <UncontrolledDropdown className='me-1'>
+              
+              
+            </UncontrolledDropdown>
+
+            <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
+              Add New User
+            </Button>
+          </div>
+        </Col>
           <DataTable
             noHeader
-            subHeader
+            
             sortServer
             pagination
             responsive
@@ -562,6 +591,8 @@ const columnn=[
             // }
           />
         </div>
+
+        
       </Card>
 
       {/* <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
