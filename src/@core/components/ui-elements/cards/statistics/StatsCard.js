@@ -1,14 +1,31 @@
 // ** Third Party Components
 import classnames from 'classnames'
 import { TrendingUp, User, Box, DollarSign } from 'react-feather'
-
+import { useState, useEffect } from 'react'
 // ** Custom Components
 import Avatar from '@components/avatar'
-
+import { getUserlist , getAllCourse} from '../../../../../core/services/api/usersmanager'
 // ** Reactstrap Imports
 import { Card, CardHeader, CardTitle, CardBody, CardText, Row, Col } from 'reactstrap'
 
 const StatsCard = ({ cols }) => {
+   const [totaluser , setTotaluser] = useState([])
+   const [totalcourse , setTotalcourse] = useState([])
+  
+  const Totalusers = async () => {
+     const result = await getUserlist()
+     setTotaluser(result?.totalCount)
+   }
+  
+  const TotalCourses = async () => {
+    const result = await getAllCourse()
+    setTotalcourse(result?.totalCount)
+  }
+
+   useEffect(()=> {
+    Totalusers()
+    TotalCourses()
+   }, [])
   const data = [
     {
       title: '230k',
@@ -17,13 +34,13 @@ const StatsCard = ({ cols }) => {
       icon: <TrendingUp size={24} />
     },
     {
-      title: '8.549k',
+      title: totaluser,
       subtitle: 'کاربران',
       color: 'light-info',
       icon: <User size={24} />
     },
     {
-      title: '1.423k',
+      title: totalcourse,
       subtitle: 'دوره ها',
       color: 'light-danger',
       icon: <Box size={24} />

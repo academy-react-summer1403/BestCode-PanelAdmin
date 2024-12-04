@@ -27,15 +27,10 @@ const UserTabs = ({ active, toggleTab }) => {
         <NavItem>
           <NavLink active={active === '2'} onClick={() => toggleTab('2')}>
             <Star className='font-medium-3 me-50' />
-            <span className='fw-bold'> برترین دانشجویان </span>
+            <span className='fw-bold'> گروه ها</span>
           </NavLink>
         </NavItem>
-        <NavItem>
-          <NavLink active={active === '3'} onClick={() => toggleTab('3')}>
-            <MessageSquare className='font-medium-3 me-50' />
-            <span className='fw-bold'> کامنت ها </span>
-          </NavLink>
-        </NavItem>
+     
         <NavItem>
           <NavLink active={active === '4'} onClick={() => toggleTab('4')}>
             <DollarSign  className='font-medium-3 me-50' />
@@ -51,15 +46,11 @@ const UserTabs = ({ active, toggleTab }) => {
         <TabPane tabId='2'>
           <SecurityTab />
         </TabPane>
-        <TabPane tabId='3'>
-          <BillingPlanTab />
-        </TabPane>
+      
         <TabPane tabId='4'>
           <Notifications />
         </TabPane>
-        <TabPane tabId='5'>
-          <Connections />
-        </TabPane>
+        
       </TabContent>
     </Fragment>
   )
