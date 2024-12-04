@@ -2,45 +2,94 @@
 import AvatarGroup from '@components/avatar-group'
 
 // ** Images
-import react from '../../../../assets/images/avatars/1-small.png'
-import vuejs from '../../../../assets/images/avatars/2-small.png'
-import angular from '../../../../assets/images/avatars/3-small.png'
-import bootstrap from '../../../../assets/images/avatars/4-small.png'
-import avatar1 from '../../../../assets/images/avatars/5-small.png'
-import avatar2 from '../../../../assets/images/avatars/6-small.png'
-import avatar3 from '../../../../assets/images/avatars/7-small.png'
+
+import { useQuery } from '@tanstack/react-query'
 
 // ** Icons Imports
 import { MoreVertical, Edit, Trash } from 'react-feather'
+import toast from 'react-hot-toast'
 
 // ** Reactstrap Imports
 import { Table, Badge, UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap'
 
-
+import { getCourseId , GetCoursePayments , DeleteCoursePayments ,AcceptCoursePayments } from '../../../../core/services/api/usersmanager'
+import { useParams } from 'react-router-dom'
+import { Fragment, useEffect, useState } from 'react'
 
 const Notifications = () => {
+  const [getid , setGetId] = useState([])
+  const [result, setResult] = useState([])
+  const {id} = useParams()
+  const GetCourseID2 = async () => {
+    const data = await getCourseId(id)
+    setGetId(data)
+  }
+  
+  const id2 = getid.courseId || []
+
+  const getUseList = async () => {
+    const data1 =  await GetCoursePayments(id2)
+    setResult(data1)
+  }
+  const [currentPage, setCurrentPage] = useState(1); 
+  const itemsPerPage = 5; 
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = result.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  
+
+  useEffect(()=> {
+    GetCourseID2()
+   
+  },[])
+
+  useEffect(() => {
+    if (getid?.courseId) {
+      getUseList();
+    }
+  }, [getid]);
+  
   return (
+    <Fragment >
     <Table bordered responsive>
       <thead>
         <tr>
-          <th> دانشجویان </th>
-          <th> نمره </th>
-          <th> وضعیت </th>
-          <th> تنظیمات </th>
+          <th>عنوان</th>
+          <th> شناسه ی پرداخت</th>
+          <th> نام کاربر</th>
+          <th> وضعیت</th>
+          <th>قیمت</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
+        {result.length > 0 && (<>
+        {currentItems.map((item ,index) =>(
         <tr>
           <td>
-            <img className='me-75' src={vuejs} alt='angular' height='20' width='20' />
-            <span className='align-middle fw-bold'> آرش غفاری چراتی  </span>
+            <img className='me-75' src={item.paymentInvoiceImage} alt='angular' height='20' width='20' />
+            <span className='align-middle fw-bold  ' > {item.title} </span>
           </td>
-          <td> 20</td>
+          <td> {item.paymentInvoiceNumber}</td>
          
           <td>
-            <Badge pill color='light-success' className='me-1'>
-              تایید شده
-            </Badge>
+             <span className='align-middle fw-bold'>
+               {item.studentName}
+             </span>
+          </td>
+          <td>
+           <Badge pill color={item.accept ? 'light-success' : 'light-danger'} className='me-1'>
+               {item.accept? 'تایید شده' : 'تایید نشده'}
+           </Badge>
+       
+          </td>
+          <td>
+            <span className='align-middle fw-bold'>
+                   {item.paid}
+            </span>
           </td>
           <td>
             <UncontrolledDropdown>
@@ -48,214 +97,66 @@ const Notifications = () => {
                 <MoreVertical size={15} />
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'> اطلاعات کاربر </span>
+                {item.accept === false &&
+                <DropdownItem 
+                tag='a'
+
+                onClick={async () => {
+                  const data = new FormData();
+                  data.append('PaymentId', item.id);
+              
+                  const response = await AcceptCoursePayments(data);
+                  if (response.success === true) {
+                    toast.success('عملیات انجام شد');
+                    refetchCourse();
+                  }
+                }}
+                
+                
+                >
+                  <Edit className='me-50' size={15} /> <span className='align-middle'> تایید کردن</span>
                 </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={angular} alt='react' height='20' width='20' />
-            <span className='align-middle fw-bold'>ایلیا غلامی</span>
-          </td>
-          <td> 20 </td>
-          
-          <td>
-            <Badge pill color='light-success' className='me-1'>
-            تایید شده
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'> اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={avatar1} alt='vuejs' height='20' width='20' />
-            <span className='align-middle fw-bold'> رضا حسن زاده </span>
-          </td>
-          <td>0</td>
-          
-          <td>
-            <Badge pill color='light-warning' className='me-1'>
-              تایید نشده
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'>اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
+                }
+                <DropdownItem href='/'
+                  onClick={async (e) => {
+                    e.preventDefault()
+                    const data = new FormData()
+                    data.append('PaymentId', item.id)
+                    const response = await DeleteCoursePayments(data)
+                    if(response.success === true){
+                    toast.success(' حذف انجام شد ')
+                    refetchCourse()
+                    }
+                }}
+                
+                
+                >
+                  <Trash className='me-50' size={15} /> <span className='align-middle'>حذف </span>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </td>
         </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={avatar3} alt='vuejs' height='20' width='20' />
-            <span className='align-middle fw-bold'> محمد رضا رحیمی اسبووووو</span>
-          </td>
-          <td>0</td>
-          
-          <td>
-            <Badge pill color='light-warning' className='me-1'>
-              جوکیییی
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'>اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={vuejs} alt='angular' height='20' width='20' />
-            <span className='align-middle fw-bold'> آرش غفاری چراتی  </span>
-          </td>
-          <td> 20</td>
-         
-          <td>
-            <Badge pill color='light-success' className='me-1'>
-              تایید شده
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'> اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={angular} alt='react' height='20' width='20' />
-            <span className='align-middle fw-bold'>ایلیا غلامی</span>
-          </td>
-          <td> 20 </td>
-          
-          <td>
-            <Badge pill color='light-success' className='me-1'>
-            تایید شده
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'> اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={avatar1} alt='vuejs' height='20' width='20' />
-            <span className='align-middle fw-bold'> رضا حسن زاده </span>
-          </td>
-          <td>0</td>
-          
-          <td>
-            <Badge pill color='light-warning' className='me-1'>
-              تایید نشده
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'>اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={avatar3} alt='vuejs' height='20' width='20' />
-            <span className='align-middle fw-bold'> محمد رضا رحیمی اسبووووو</span>
-          </td>
-          <td>0</td>
-          
-          <td>
-            <Badge pill color='light-warning' className='me-1'>
-              جوکیییی
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'>اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
+      ))}
+     </>)}
+     
       </tbody>
+     
     </Table>
+    <nav>
+        <ul className="pagination justify-content-center">
+          {Array.from({ length: Math.ceil(result.length / itemsPerPage) }, (_, index) => (
+            <li
+              key={index}
+              className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
+              onClick={() => paginate(index + 1)}
+            >
+              <button className="page-link">{index + 1}</button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </Fragment>
   )
 }
 

@@ -29,17 +29,26 @@ const DefaultRoute = "/home";
 const Home = lazy(() => import("../../pages/Home"));
 const CourseList = lazy(() => import("../../pages/CourseList"));
 const CourseDetail = lazy(() => import("../../pages/CourseDetail"));
+const UserDetail = lazy(() => import("../../pages/UserDetail"));
+const NewsAdd = lazy(() => import('../../pages/News/add'))
+
 const UserList = lazy(() => import("../../pages/userList"));
 const NewsManagement = lazy(() => import("../../pages/newsManagement"));
 const CommentsManagement = lazy(() => import("../../pages/commentsManagement"));
 const AddnewCourse = lazy(() => import("../../pages/AddnewCourse"));
+const NewsView = lazy(() => import('../../pages/News/view'))
 
+// const DetailCommentNews = lazy(() => import("../../../src/@core/components/user1/view/TableHover"));
+
+const DetailComment = lazy(() => import("../../../src/@core/components/user1/view/TableHover"));
 
 
 const Login = lazy(() => import("../../pages/Login"));
 const Register = lazy(() => import("../../pages/Register"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
 const Error = lazy(() => import("../../pages/Error"));
+const NewsEdit = lazy(() => import('../../pages/News/edit'))
+
 
 // ** Merge Routes
 const Routes = [
@@ -61,7 +70,7 @@ const Routes = [
     element: <AddnewCourse />,
   },
   {
-    path: "/courseManagement/CourseDetail",
+    path: "/courseManagement/CourseDetail/:id",
     element: <CourseDetail />,
   },
   {
@@ -69,8 +78,25 @@ const Routes = [
     element: <UserList />,
   },
   {
+    element: <NewsEdit />,
+    path: '/News/edit/:id'
+  },
+  {
+    element: <NewsAdd />,
+    path: '/News/add'
+  },
+  {
+    path: "/userManagement/userDetail/:id",
+    element: <UserDetail />,
+  },
+  {
     path: "/newsManagement",
     element: <NewsManagement />,
+  },
+  
+  {
+    path: "/comments/view/:id/:courseId",
+    element: <DetailComment />,
   },
   {
     path: "/commentsManagement",
@@ -82,6 +108,10 @@ const Routes = [
     meta: {
       layout: "blank",
     },
+  },
+  {
+    element: <NewsView />,
+    path: '/News/view/:id'
   },
   {
     path: "/register",

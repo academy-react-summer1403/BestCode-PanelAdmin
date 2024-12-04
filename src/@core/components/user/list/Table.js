@@ -1,533 +1,367 @@
 // ** React Imports
-import { Fragment, useState, useEffect } from 'react'
-import Avatar from '@components/avatar'
-import pic from "../../../../assets/images/avatars/1.png"
-// ** Invoice List Sidebar
-import Sidebar from './Sidebar'
-
-// ** Table Columns
-import { columns } from './columns'
-
-// ** Store & Actions
-import { getAllData, getData } from '../store'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
 
 // ** Third Party Components
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Printer, FileText, File, Grid,MoreVertical, Copy, Archive, Trash2 } from 'react-feather'
+import { ArrowRight, Check, ChevronDown, FileText, MoreVertical, Trash2, X , ArrowUpCircle
+  ,
+} from 'react-feather'
 
-// // ** Utils
+// ** Utils
 import { selectThemeColors } from '@utils'
 
-// // ** Reactstrap Imports
+// ** Reactstrap Imports
 import {
   Row,
+  Badge,
   Col,
   Card,
   Input,
   Label,
-  Button,
   CardBody,
   CardTitle,
   CardHeader,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  UncontrolledDropdown
+  UncontrolledDropdown,
+  Spinner,
 } from 'reactstrap'
+
+// ** React Imports
+import { Link } from 'react-router-dom'
+
+// ** Custom Components
+import Avatar from '@components/avatar'
+
+import toast from 'react-hot-toast'
+import { AcceptCourseComment, DeleteCourseComment , RejectCourseComment , GetCourseComments , GetCreateCourse } from '../../../../core/Services/api/usersmanager'
+
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import { useQuery } from '@tanstack/react-query'
+import AddCardExample from '../Modal/AddReply'
+import UpdateCommentCourse from '../Modal/UpdateCourseCommentModal'
 
 // ** Table Header
-// const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
-//   // ** Converts table to CSV
-//   function convertArrayOfObjectsToCSV(array) {
-//     let result
+const CustomHeader = ({ handlePerPage, handleQuery, rowsPerPage, searchTerm }) => {
 
-//     const columnDelimiter = ','
-//     const lineDelimiter = '\n'
-//     const keys = Object.keys(store.data[0])
+  return (
+    <div className='invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75'>
+      <Row>
+        <Col xl='6' className='d-flex align-items-center p-0'>
+          <div className='d-flex align-items-center w-100'>
+            <label htmlFor='rows-per-page'>نمایش</label>
+            <Input
+              className='mx-50'
+              type='select'
+              id='rows-per-page'
+              value={rowsPerPage}
+              onChange={(val) => handlePerPage(val.target.value)}
+              style={{ width: '5rem' }}
+            >
+              <option value='5'>5</option>
+              <option value='10'>10</option>
+              <option value='20'>20</option>
+            </Input>
+            <label htmlFor='rows-per-page'>عدد</label>
+          </div>
+        </Col>
+        <Col
+          xl='6'
+          className='d-flex align-items-sm-center justify-content-xl-end justify-content-start flex-xl-nowrap flex-wrap flex-sm-row flex-column p-0 mt-xl-0 mt-1'
+        >
+          <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
+            <Input
+              placeholder='جستحوی نظر...'
+              id='search-invoice'
+              className='ms-50 w-100'
+              type='text'
+              value={searchTerm}
+              onChange={e => handleQuery(e.target.value)}
+            />
+          </div>
 
-//     result = ''
-//     result += keys.join(columnDelimiter)
-//     result += lineDelimiter
-
-//     array.forEach(item => {
-//       let ctr = 0
-//       keys.forEach(key => {
-//         if (ctr > 0) result += columnDelimiter
-
-//         result += item[key]
-
-//         ctr++
-//       })
-//       result += lineDelimiter
-//     })
-
-//     return result
-//   }
-
-//   // ** Downloads CSV
-//   function downloadCSV(array) {
-//     const link = document.createElement('a')
-//     let csv = convertArrayOfObjectsToCSV(array)
-//     if (csv === null) return
-
-//     const filename = 'export.csv'
-
-//     if (!csv.match(/^data:text\/csv/i)) {
-//       csv = `data:text/csv;charset=utf-8,${csv}`
-//     }
-
-//     link.setAttribute('href', encodeURI(csv))
-//     link.setAttribute('download', filename)
-//     link.click()
-//   }
-//   return (
-//     <div className='invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75'>
-//       <Row>
-//         <Col xl='6' className='d-flex align-items-center p-0'>
-//           <div className='d-flex align-items-center w-100'>
-//             <label htmlFor='rows-per-page'>Show</label>
-//             <Input
-//               className='mx-50'
-//               type='select'
-//               id='rows-per-page'
-//               value={rowsPerPage}
-//               onChange={handlePerPage}
-//               style={{ width: '5rem' }}
-//             >
-//               <option value='10'>10</option>
-//               <option value='25'>25</option>
-//               <option value='50'>50</option>
-//             </Input>
-//             <label htmlFor='rows-per-page'>Entries</label>
-//           </div>
-//         </Col>
-//         <Col
-//           xl='6'
-//           className='d-flex align-items-sm-center justify-content-xl-end justify-content-start flex-xl-nowrap flex-wrap flex-sm-row flex-column pe-xl-1 p-0 mt-xl-0 mt-1'
-//         >
-//           <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
-//             <label className='mb-0' htmlFor='search-invoice'>
-//               Search:
-//             </label>
-//             <Input
-//               id='search-invoice'
-//               className='ms-50 w-100'
-//               type='text'
-//               value={searchTerm}
-//               onChange={e => handleFilter(e.target.value)}
-//             />
-//           </div>
-
-//           <div className='d-flex align-items-center table-header-actions'>
-//             <UncontrolledDropdown className='me-1'>
-//               <DropdownToggle color='secondary' caret outline>
-//                 <Share className='font-small-4 me-50' />
-//                 <span className='align-middle'>Export</span>
-//               </DropdownToggle>
-//               <DropdownMenu>
-//                 <DropdownItem className='w-100'>
-//                   <Printer className='font-small-4 me-50' />
-//                   <span className='align-middle'>Print</span>
-//                 </DropdownItem>
-//                 <DropdownItem className='w-100' onClick={() => downloadCSV(store.data)}>
-//                   <FileText className='font-small-4 me-50' />
-//                   <span className='align-middle'>CSV</span>
-//                 </DropdownItem>
-//                 <DropdownItem className='w-100'>
-//                   <Grid className='font-small-4 me-50' />
-//                   <span className='align-middle'>Excel</span>
-//                 </DropdownItem>
-//                 <DropdownItem className='w-100'>
-//                   <File className='font-small-4 me-50' />
-//                   <span className='align-middle'>PDF</span>
-//                 </DropdownItem>
-//                 <DropdownItem className='w-100'>
-//                   <Copy className='font-small-4 me-50' />
-//                   <span className='align-middle'>Copy</span>
-//                 </DropdownItem>
-//               </DropdownMenu>
-//             </UncontrolledDropdown>
-
-//             <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
-//               Add New User
-//             </Button>
-//           </div>
-//         </Col>
-//       </Row>
-//     </div>
-//   )
-// }
+        </Col>
+      </Row>
+    </div>
+  )
+}
 
 const UsersList = () => {
-  // // ** Store Vars
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.users)
+  // ** States
+  const [SortingCol, setSortingCol] = useState('')
+  const [SortType, setSortType] = useState('')
+  const [RowsOfPage, setRowsOfPage] = useState(5)
+  const [PageNumber, setPageNumber] = useState(1)
+  const [Query, setQuery] = useState('')
+  const [Accept, setAccept] = useState({ value: '', label: 'انتخاب کنید' })
+  const [Teacher, setTeacher] = useState({ value: '', label: 'انتخاب کنید' })
 
-  // // ** States
-  const [sort, setSort] = useState('desc')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [sortColumn, setSortColumn] = useState('id')
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
-  const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
-  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
+  const {data: Create} = useQuery({queryKey: ['GetCreateCourse'], queryFn: GetCreateCourse})
 
-  // // ** Function to toggle sidebar
+  const {data: CourseComment, refetch, isLoading, isFetching} = useQuery({
+    queryKey: ['GetCourseComments', SortType, SortingCol, Query, PageNumber, RowsOfPage, Accept, Teacher], 
+    queryFn: () => GetCourseComments(SortType, SortingCol, Query, PageNumber, RowsOfPage, Accept, Teacher),
+    refetchOnWindowFocus: false,
+    keepPreviousData: true,
+  })
+
+  const [show, setShow] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const [show2, setShow2] = useState(false);
+  const [selectedItem2, setSelectedItem2] = useState(null);
+
+ 
+
+    const statusObj = {
+      pending: 'light-warning',
+      active: 'light-success',
+      inactive: 'light-secondary',
+      danger: 'light-danger',
+    }
+
+    const columns = [
+    {
+      name: 'پاسخ',
+      maxWidth: '50px',
+      selector: row => <ArrowUpCircle onClick={() => {
+        setSelectedItem(row)
+        setShow(true)
+      }} className='text-info cursor-pointer '
+      />
+    }
+    ,{
+      name: 'توضیحات نظر',
+      sortable: true,
+      minWidth: '300px',
+      sortField: 'fullName',
+      selector: row => row.fname,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          <div className='d-flex flex-column' style={{maxWidth: '200px', overflow: 'hidden'}}>
+            <Link
+              to={`/comments/view/${row.commentId}/${row.courseId}`}
+              className='user_name text-truncate text-body'
+            >
+              <span className='fw-bolder'> {row.commentTitle ? row.commentTitle : 'نامشخص'} </span>
+            </Link>
+            <small className='text-truncate text-muted mb-0'>{row.describe}</small>
+          </div>
+        </div>
+      )
+    },
+    {
+      name: 'نام نویسنده',
+      minWidth: '230px',
+      sortable: true,
+      sortField: 'billing',
+      selector: row => row.userFullName,
+      cell: row => <span className='text-capitalize'>{row.userFullName.replace('-', ' ')}</span>
+    },
+    {
+      name: ' دوره ثبت شده',
+      minWidth: '230px',
+      sortable: true,
+      sortField: 'billing',
+      selector: row => row.courseTitle,
+      cell: row => <span className='text-capitalize'>{row.courseTitle}</span>
+    },
+    {
+      name: 'وضعیت',
+      minWidth: '138px',
+      sortable: true,
+      sortField: 'status',
+      selector: row => row.active,
+      cell: row => (
+        <Badge className='text-capitalize' color={statusObj[row.accept ? 'active' : 'danger']} pill>
+          {row.accept ? 'قبول شده' : 'در حال انتظار'}
+        </Badge>
+      )
+    },
+    {
+      name: 'اقدام',
+      minWidth: '100px',
+      cell: row => (
+        <div style={{zIndex: 'auto'}}>
+          <UncontrolledDropdown className='position-static'>
+            <DropdownToggle tag='div' className='btn btn-sm'>
+              <MoreVertical size={14} className='cursor-pointer' />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                tag={Link}
+                className='w-100'
+                to={`/comments/view/${row.commentId}/${row.courseId}`}
+              >
+                <FileText size={14} className='me-50' />
+                <span className='align-middle'> نمایش پاسخ ها </span>
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  setSelectedItem2(row)
+                  setShow2(true)
+                }} 
+                className='text-info cursor-pointer w-100'>
+                <FileText size={14} className='me-50' />
+                <span className='align-middle'> ویرایش نظر </span>
+                {show2 && <UpdateCommentCourse show={show2} setShow={setShow2} selectedItem={selectedItem2} refetch={refetch} />}
+              </DropdownItem>
+              {row.accept === false && <DropdownItem tag='a' href='/' className='w-100' onClick={async (e) => {
+                e.preventDefault()
+                const response = await AcceptCourseComment(row.commentId)
+                if(!response) {
+                  toast.error(' عملیات ناموفق بود ')
+                }
+                else if(response.success == true){
+                  toast.success(' عملبات با موفیقت انجام شد ')
+                  refetch()
+                }  
+                else{
+                  toast.error(' عملیات ناموفق بود ')
+                }
+              }}>
+                <Check size={14} className='me-50 text-success' />
+                <span className='align-middle text-success'> قبول کردن نظر </span>
+              </DropdownItem>}
+              {row.accept === true && <DropdownItem tag='a' href='/' className='w-100' onClick={async (e) => {
+                e.preventDefault()
+                const response = await RejectCourseComment(row.commentId)
+                if(!response) {
+                  toast.error(' عملیات ناموفق بود ')
+                }
+                else if(response.success == true){
+                  toast.success(' عملبات با موفیقت انجام شد ')
+                  refetch()
+                }  
+                else{
+                  toast.error(' عملیات ناموفق بود ')
+                }
+              }}>
+                <X size={14} className='me-50 text-warning' />
+                <span className='align-middle text-warning'> رد کردن نظر </span>
+              </DropdownItem>}
+              <DropdownItem
+                tag='a'
+                className='w-100'
+                onClick={async (e) => {
+                  e.preventDefault()
+                  const response = await DeleteCourseComment(row.commentId)
+                if(!response) {
+                  toast.error(' عملیات ناموفق بود ')
+                }
+                else if(response.success == true){
+                  toast.success(' عملبات با موفیقت انجام شد ')
+                  refetch()
+                }
+                else{
+                  toast.error(' امکان به حذف این نظر وجود ندارد😎 ')
+                }
+                }}
+              >
+                <Trash2 size={14} className='me-50 text-danger' />
+                <span className='align-middle text-danger'> حذف </span>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </div>
+      )
+    }
+  ]
+
+  // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
 
-  // // ** Get data on mount
-  // useEffect(() => {
-  //   dispatch(getAllData())
-  //   dispatch(
-  //     getData({
-  //       sort,
-  //       sortColumn,
-  //       q: searchTerm,
-  //       page: currentPage,
-  //       perPage: rowsPerPage,
-  //       role: currentRole.value,
-  //       status: currentStatus.value,
-  //       currentPlan: currentPlan.value
-  //     })
-  //   )
-  // }, [dispatch, store.data.length, sort, sortColumn, currentPage])
-
-  // // ** User filter options
-  const roleOptions = [
-    { value: '', label: 'Select Role' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'maintainer', label: 'Maintainer' },
-    { value: 'subscriber', label: 'Subscriber' }
+  const AcceptOptions = [
+    { value: '',  label: 'انتخاب کنید' },
+    { value: false, label: ' در حال انتظار ' },
+    { value: true, label: ' قبول شده ' },
   ]
 
-  const planOptions = [
-    { value: '', label: 'Select Plan' },
-    { value: 'basic', label: 'Basic' },
-    { value: 'company', label: 'Company' },
-    { value: 'enterprise', label: 'Enterprise' },
-    { value: 'team', label: 'Team' }
-  ]
+  const TeacherOptions = Create?.teachers.map(teacher => ({value: teacher.teacherId, label: teacher.fullName !== null ? (teacher.fullName).replace('-', ' ') : ' نامشخص '}))
 
-  const statusOptions = [
-    { value: '', label: 'Select Status', number: 0 },
-    { value: 'pending', label: 'Pending', number: 1 },
-    { value: 'active', label: 'Active', number: 2 },
-    { value: 'inactive', label: 'Inactive', number: 3 }
-  ]
-
-  // // ** Function in get data on page change
-  const handlePagination = page => {
-    dispatch(
-      getData({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        perPage: rowsPerPage,
-        page: page.selected + 1,
-        role: currentRole.value,
-        status: currentStatus.value,
-        currentPlan: currentPlan.value
-      })
-    )
-    setCurrentPage(page.selected + 1)
-  }
-
-  // // ** Function in get data on rows per page
-  const handlePerPage = e => {
-    const value = parseInt(e.currentTarget.value)
-    dispatch(
-      getData({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        perPage: value,
-        page: currentPage,
-        role: currentRole.value,
-        currentPlan: currentPlan.value,
-        status: currentStatus.value
-      })
-    )
-    setRowsPerPage(value)
-  }
-
-  // // ** Function in get data on search query change
+  // ** Function in get data on search query change
   const handleFilter = val => {
-    setSearchTerm(val)
-    dispatch(
-      getData({
-        sort,
-        q: val,
-        sortColumn,
-        page: currentPage,
-        perPage: rowsPerPage,
-        role: currentRole.value,
-        status: currentStatus.value,
-        currentPlan: currentPlan.value
-      })
-    )
+    
   }
 
-  // // ** Custom Pagination
-  const CustomPagination = () => {
-    const count = Number(Math.ceil(store.total / rowsPerPage))
-
-    return (
-      <ReactPaginate
-        previousLabel={''}
-        nextLabel={''}
-        pageCount={count || 1}
-        activeClassName='active'
-        forcePage={currentPage !== 0 ? currentPage - 1 : 0}
-        onPageChange={page => handlePagination(page)}
-        pageClassName={'page-item'}
-        nextLinkClassName={'page-link'}
-        nextClassName={'page-item next'}
-        previousClassName={'page-item prev'}
-        previousLinkClassName={'page-link'}
-        pageLinkClassName={'page-link'}
-        containerClassName={'pagination react-paginate justify-content-end my-2 pe-1'}
-      />
-    )
+  const handlePerPage = (val) => {
+    setRowsOfPage(val)
   }
 
-  // // ** Table data to render
+  const handleQuery = (query) => {
+    setQuery(query)
+    setPageNumber(1)
+  }
+
+  useEffect(() => {
+    refetch()
+  }, [SortType || SortingCol || Query || PageNumber || RowsOfPage || Accept || Teacher])
+
+  // ** Custom Pagination
+ 
+
+  // ** Table data to render
   const dataToRender = () => {
-    const filters = {
-      role: currentRole.value,
-      currentPlan: currentPlan.value,
-      status: currentStatus.value,
-      q: searchTerm
+
+
+      return CourseComment?.comments.slice(0, RowsOfPage)
+  
+  }
+
+  const handleSort = (val) => {
+    if(val.value === 2){
+      setIsActiveUser(true)
+      setIsDeletedUser(false)
     }
-
-    const isFiltered = Object.keys(filters).some(function (k) {
-      return filters[k].length > 0
-    })
-
-    if (store.data.length > 0) {
-      return store.data
-    } else if (store.data.length === 0 && isFiltered) {
-      return []
-    } else {
-      return store.allData.slice(0, rowsPerPage)
+    else if(val.value === 3){
+      setIsActiveUser(false)
+      setIsDeletedUser(true)
     }
   }
+  const count = Number(CourseComment?.totalCount / RowsOfPage)
 
-  const handleSort = (column, sortDirection) => {
-    setSort(sortDirection)
-    setSortColumn(column.sortField)
-    dispatch(
-      getData({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        page: currentPage,
-        perPage: rowsPerPage,
-        role: currentRole.value,
-        status: currentStatus.value,
-        currentPlan: currentPlan.value
-      })
-    )
-  }
-const data=[{name:'reza', fname:'rezaii',email:'reza123@gmail',age:27, student:'ali'},
-{name:'reza', fname:'rezaii',email:'reza123@gmail',age:27, student:'ali'},
-{name:'reza', fname:'rezaii',email:'reza123@gmail',age:27, student:'ali'},
-{name:'reza', fname:'rezaii',email:'reza123@gmail',age:27, student:'ali'},]
 
-const columnn=[
-  {
-    name: 'User',
-    sortable: true,
-    minWidth: '300px',
-    sortField: 'fullName',
-    selector: row => row.name,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {/* {renderClient(row)} */}
-        <Avatar img={pic} />
-        <div className='d-flex flex-column'>
-
-            <span className='fw-bolder'>{row.fname}</span>
-
-          <small className='text-truncate text-muted mb-0'>{row.email}</small>
-        </div>
-      </div>
-    )
-  },
-  {
-    name: 'نام',
-    sortable: true,
-    minWidth: '172px',
-    sortField: 'name',
-    selector: row => row.name,
-    // cell: row => renderRole(row)
-  },
-  {
-    name: 'Role',
-    sortable: true,
-    minWidth: '172px',
-    sortField: 'role',
-    selector: row => row.fname,
-    // cell: row => renderRole(row)
-  },
-  {
-    name: 'Role',
-    sortable: true,
-    minWidth: '172px',
-    sortField: 'role',
-    selector: row => row.email,
-    // cell: row => renderRole(row)
-  },
-  {
-    name: 'Role',
-    sortable: true,
-    minWidth: '172px',
-    sortField: 'role',
-    selector: row => row.age,
-    // cell: row => renderRole(row)
-  },
-  {
-    name: 'Actions',
-    minWidth: '100px',
-    cell: row => (
-      <div className='column-action'>
-        <UncontrolledDropdown>
-          <DropdownToggle tag='div' className='btn btn-sm'>
-            <MoreVertical size={14} className='cursor-pointer' />
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem
-              // tag={Link}
-              // className='w-100'
-              // to={`/apps/user/view/${row.id}`}
-              // onClick={() => store.dispatch(getUser(row.id))}
-            >
-              <FileText size={14} className='me-50' />
-              <span className='align-middle'>Details</span>
-            </DropdownItem>
-            <DropdownItem 
-            // tag='a'
-            //  href='/' 
-            //  className='w-100'
-            //   onClick={e => e.preventDefault()}
-              >
-              <Archive size={14} className='me-50' />
-              <span className='align-middle'>Edit</span>
-
-            </DropdownItem>
-            <DropdownItem
-            //   tag='a'
-            //   href='/'
-            //   className='w-100'
-            //   onClick={e => {
-            //     e.preventDefault()
-            //     store.dispatch(deleteUser(row.id))
-            //   }
-            // }
-            >
-              <Trash2 size={14} className='me-50' />
-              <span className='align-middle'>Delete</span>
-            </DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
-      </div>
-    )
-  }
-]
   return (
-    <Fragment>
-
-      <Card>
+    <>
+       <Card>
         <CardHeader>
-          <CardTitle tag='h4'>Filters</CardTitle>
+          <CardTitle tag='h4'>فیلتر ها</CardTitle>
         </CardHeader>
         <CardBody>
           <Row>
-            <Col md='4'>
-              <Label for='role-select'>Role</Label>
+            <Col md='6'>
+              <Label for='role-select'> وضعیت نظرات </Label>
               <Select
                 isClearable={false}
-                value={currentRole}
-                options={roleOptions}
+                value={Accept}
+                options={AcceptOptions}
                 className='react-select'
                 classNamePrefix='select'
                 theme={selectThemeColors}
                 onChange={data => {
-                  setCurrentRole(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      role: data.value,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      status: currentStatus.value,
-                      currentPlan: currentPlan.value
-                    })
-                  )
+                    setPageNumber(1)
+                    setAccept(data)
                 }}
               />
             </Col>
-            <Col className='my-md-0 my-1' md='4'>
-              <Label for='plan-select'>Plan</Label>
+            <Col md='6'>
+              <Label for='role-select'> استاد دوره </Label>
               <Select
-                theme={selectThemeColors}
                 isClearable={false}
+                value={Teacher}
+                options={TeacherOptions}
                 className='react-select'
                 classNamePrefix='select'
-                options={planOptions}
-                value={currentPlan}
-                onChange={data => {
-                  setCurrentPlan(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: data.value,
-                      status: currentStatus.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-            <Col md='4'>
-              <Label for='status-select'>Status</Label>
-              <Select
                 theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={statusOptions}
-                value={currentStatus}
                 onChange={data => {
-                  setCurrentStatus(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      status: data.value,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: currentPlan.value
-                    })
-                  )
+                    setPageNumber(1)
+                    setTeacher(data)
                 }}
               />
             </Col>
@@ -536,36 +370,43 @@ const columnn=[
       </Card>
 
       <Card className='overflow-hidden'>
-        <div className='react-dataTable'>
-          <DataTable
-            noHeader
-            subHeader
-            sortServer
-            pagination
-            responsive
-            paginationServer
-            columns={columnn}
-            // onSort={handleSort}
-            // sortIcon={<ChevronDown />}
-            className='react-dataTable'
-            // paginationComponent={CustomPagination}
-            data={data}
-            // subHeaderComponent={
-            //   <CustomHeader
-            //     store={store}
-            //     searchTerm={searchTerm}
-            //     rowsPerPage={rowsPerPage}
-            //     handleFilter={handleFilter}
-            //     handlePerPage={handlePerPage}
-            //     toggleSidebar={toggleSidebar}
-            //   />
-            // }
-          />
-        </div>
-      </Card>
+      <div className='react-dataTable'>
+  <DataTable
+    noHeader
+    subHeader
+    sortServer
+    pagination
+    paginationServer 
+    responsive
+    columns={columns}
+    paginationTotalRows={count || 0} 
+    onSort={handleSort} 
+    sortIcon={<ChevronDown />}
+    className='react-dataTable'
+    data={dataToRender()} 
+    onChangePage={(page) => setPageNumber(page)} 
+    onChangeRowsPerPage={(newRows) => {
+      setRowsOfPage(newRows); 
+      setPageNumber(1); 
+    }}
+    progressPending={isLoading || isFetching}
+    progressComponent={<Spinner className='my-5' /> }
+    noDataComponent={<div style={{ padding: '20px' }}>نظری ثبت نشده است</div>}
+    subHeaderComponent={
+      <CustomHeader
+        handleFilter={handleFilter}
+        handleQuery={handleQuery}
+        handlePerPage={handlePerPage}
+        toggleSidebar={toggleSidebar}
+        rowsPerPage={RowsOfPage}
+      />
+    }
+  />
+</div>
 
-      {/* <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
-    </Fragment>
+      </Card> 
+      <AddCardExample show={show} setShow={setShow} selectedItem={selectedItem} />
+    </>
   )
 }
 

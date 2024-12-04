@@ -164,10 +164,10 @@ const TableBordered = () => {
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'>Edit</span>
+                  <Edit className='me-50' size={15} /> <span className='align-middle'>تنظیمات</span>
                 </DropdownItem>
                 <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'>Delete</span>
+                  <Trash className='me-50' size={15} /> <span className='align-middle'>حذف</span>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -194,10 +194,10 @@ const TableBordered = () => {
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'>Edit</span>
+                  <Edit className='me-50' size={15} /> <span className='align-middle'>تنظیمات</span>
                 </DropdownItem>
                 <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'>Delete</span>
+                  <Trash className='me-50' size={15} /> <span className='align-middle'>حذف</span>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
