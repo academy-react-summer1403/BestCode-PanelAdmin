@@ -22,10 +22,43 @@ import {
   DropdownToggle,
   UncontrolledDropdown
 } from 'reactstrap'
+import { Backendfilter, FrontEndfilter, Nextfilter, Reactfilter } from '../../../../../core/services/api/usersmanager'
 
 const AvgSessions = props => {
   // ** States
- 
+  const [reactyy , setReactyy] = useState([])
+  const [nextyy , setNextyyy] = useState([])
+  const [frontii , setfrontyyy] = useState([])
+  const [backendi , setbackendyyy] = useState([])
+  
+  const TakeReacty = async () => {
+    const result = await  Reactfilter()
+    setReactyy(result?.totalCount)
+  }
+
+  const TakeNextyy = async () => {
+    const result = await Nextfilter()
+    setNextyyy(result?.totalCount)
+  }
+
+  const Takefrontii = async () => {
+    const result = await FrontEndfilter()
+    setfrontyyy(result?.totalCount)
+  }
+
+  const TakeBackendi = async () => {
+    const result = await Backendfilter()
+    setbackendyyy(result?.totalCount)
+  }
+
+
+  useEffect(() => {
+    TakeReacty()
+    TakeNextyy()
+    Takefrontii()
+    TakeBackendi()
+  }, [])
+
   const options = {
       chart: {
         sparkline: { enabled: true },
@@ -106,20 +139,20 @@ const AvgSessions = props => {
         <hr />
         <Row className='pt-50'>
           <Col className='mb-2' md='6' sm='12'>
-            <p className='mb-50'>React.js: {'616'}</p>
-            <Progress className='avg-session-progress mt-25' value='80' />
+            <p className='mb-50'>React.js: {reactyy}</p>
+            <Progress className='avg-session-progress mt-25' value={reactyy} />
           </Col>
           <Col className='mb-2' md='6' sm='12'>
-            <p className='mb-50'>Next.js: {'434'}</p>
-            <Progress className='avg-session-progress progress-bar-warning mt-25' value='60' />
+            <p className='mb-50'>Next.js: {nextyy}</p>
+            <Progress className='avg-session-progress progress-bar-warning mt-25' value={nextyy} />
           </Col>
           <Col md='6' sm='12'>
-            <p className='mb-50'>Node.js: {'150'}</p>
-            <Progress className='avg-session-progress progress-bar-danger mt-25' value='25' />
+            <p className='mb-50'>FrontEnd: {frontii}</p>
+            <Progress className='avg-session-progress progress-bar-danger mt-25' value={frontii} />
           </Col>
           <Col md='6' sm='12'>
-            <p className='mb-50'>HTML/css: {'300'}</p>
-            <Progress className='avg-session-progress progress-bar-success mt-25' value='45' />
+            <p className='mb-50'>Backend: {backendi}</p>
+            <Progress className='avg-session-progress progress-bar-success mt-25' value={backendi} />
           </Col>
         </Row>
       </CardBody>

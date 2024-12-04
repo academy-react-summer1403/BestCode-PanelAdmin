@@ -18,17 +18,7 @@ import UserInfoCard from './UserInfoCard'
 import '@styles/react/apps/app-users.scss'
 
 const UserView = () => {
-  // ** Store Vars
-  // const store = useSelector(state => state.users)
-  // const dispatch = useDispatch()
 
-  // ** Hooks
-  // const { id } = useParams()
-
-  // ** Get suer on mount
-  // useEffect(() => {
-  //   dispatch(getUser(parseInt(id)))
-  // }, [dispatch])
 
   const [active, setActive] = useState('1')
 
@@ -50,13 +40,6 @@ const UserView = () => {
         </Col>
       </Row> 
     </div>
-  ) // ( <></>
-    // <Alert color='danger'>
-    //   <h4 className='alert-heading'>User not found</h4>
-    //    <div className='alert-body'>
-    //     User with id: {id} doesn't exist. Check list of all Users: <Link to='/apps/user/list'>Users List</Link>
-    //   </div> 
-    // </Alert>
-  //)
+  )
 }
 export default UserView

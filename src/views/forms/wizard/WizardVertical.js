@@ -13,7 +13,6 @@ import AccountDetails from './steps/AccountDetails'
 const WizardVertical = () => {
   // ** Ref
   const ref = useRef(null)
-
   // ** State
   const [stepper, setStepper] = useState(null)
 
@@ -22,7 +21,9 @@ const WizardVertical = () => {
       id: 'account-details',
       title: ' اطلاعات دوره  ',
       subtitle: 'اطلاعات تکمیلی را بنویسید',
-      content: <AccountDetails stepper={stepper} type='wizard-vertical' />
+      content: <AccountDetails stepper={stepper}
+      
+      type='wizard-vertical' />
     },
     {
       id: 'personal-info',

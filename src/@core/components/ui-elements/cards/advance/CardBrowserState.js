@@ -553,16 +553,7 @@ const CardBrowserState = ({ colors, trackBgColor }) => {
           <CardTitle tag='h4'>انواع کاربران</CardTitle>
           <CardText className='font-small-2'> شمارش 1403 </CardText>
         </div>
-        <UncontrolledDropdown className='chart-dropdown'>
-          <DropdownToggle color='' className='bg-transparent btn-sm border-0 p-50'>
-            <MoreVertical size={18} className='cursor-pointer' />
-          </DropdownToggle>
-          <DropdownMenu end>
-            <DropdownItem className='w-100'>Last 28 Days</DropdownItem>
-            <DropdownItem className='w-100'>Last Month</DropdownItem>
-            <DropdownItem className='w-100'>Last Year</DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
+       
       </CardHeader>
       <CardBody>{renderStates()}</CardBody>
     </Card>

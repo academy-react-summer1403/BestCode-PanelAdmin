@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getItem } from "../common/storage.services";
+import toast from 'react-hot-toast'
 
 const baseURL = import.meta.env.VITE_BASE_URL
 
@@ -14,7 +15,7 @@ const onSuccess =  (response) => {
 const onError = (err) => {
    console.log(err)
    if(err.response.status >= 400 && err.response.status < 500) {
-     alert('API NOT FOUND', err)
+     toast.error(err.response.data.ErrorMessage)
  }
   return Promise.reject(err)
 }

@@ -2,260 +2,144 @@
 import AvatarGroup from '@components/avatar-group'
 
 // ** Images
-import react from '../../../../assets/images/avatars/1-small.png'
-import vuejs from '../../../../assets/images/avatars/2-small.png'
-import angular from '../../../../assets/images/avatars/3-small.png'
-import bootstrap from '../../../../assets/images/avatars/4-small.png'
-import avatar1 from '../../../../assets/images/avatars/5-small.png'
-import avatar2 from '../../../../assets/images/avatars/6-small.png'
-import avatar3 from '../../../../assets/images/avatars/7-small.png'
+
 
 // ** Icons Imports
 import { MoreVertical, Edit, Trash } from 'react-feather'
 
 // ** Reactstrap Imports
-import { Table, Badge, UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap'
+import { Table, Badge, UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle, Button } from 'reactstrap'
+import { getCourseId , GetGroupCourse , DeleteGroup} from '../../../../core/services/api/usersmanager'
+import EditModalGroup  from '../../../../pages/ModalCourp/EditModalGroup'
+import ModalGroup from '../../../../pages/ModalCourp/ModalGroup'
+import { useParams } from 'react-router-dom'
+import { Fragment, useEffect, useState } from 'react'
+
 
 const SecurityTab = () => {
+  const [getid , setGetId] = useState([])
+  const [result, setResult] = useState([])
+  const {id} = useParams()
+  const GetCourseID2 = async () => {
+    const data = await getCourseId(id)
+    setGetId(data)
+  }
   
+  const id2 = getid.courseId || []
+  const id1 = getid.teacherId || []
+
+  const getUseList = async () => {
+    const data1 =  await GetGroupCourse(id1 , id2)
+    setResult(data1)
+    console.log(data1)
+  }
+
+  const [editingGroupId, setEditingGroupId] = useState(null)
+
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+  const toggleModal2 = (groupId) => {
+    setEditingGroupId(groupId === editingGroupId ? null : groupId)
+  }
+
+  useEffect(()=> {
+    GetCourseID2()
+   
+  },[])
+
+  useEffect(() => {
+    if (getid?.courseId) {
+      getUseList();
+    }
+  }, [getid]);
 
   return (
-    <Table bordered responsive>
-      <thead>
-        <tr>
-          <th> دانشجویان </th>
-          <th> نمره </th>
-          <th> وضعیت </th>
-          <th> تنظیمات </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <img className='me-75' src={vuejs} alt='angular' height='20' width='20' />
-            <span className='align-middle fw-bold'> آرش غفاری چراتی  </span>
-          </td>
-          <td> 20</td>
-         
-          <td>
-            <Badge pill color='light-success' className='me-1'>
-              تایید شده
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
+    <Fragment >
+         <ModalGroup  isOpen={isModalOpen} toggleModal={toggleModal} CourseId={id} 
+  
+         />
+         <Button className='me-1 mb-4' color='primary' type='submit'
+                onClick={toggleModal}
+         >
+               افزودن گروه
+         </Button>
+      <Table bordered responsive>
+    <thead>
+      <tr>
+        <th>نام گروه</th>
+        <th>نام استاد</th>
+        <th>ظرفیت گروه</th>
+        <th>نام دوره</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {result.length > 0 &&
+       <>
+       {result.map((item, index) =>(
+         <tr>
+        <td>
+          <span className='align-middle fw-bold'> {item.groupName} </span>
+        </td>
+        <td> {item.teacherName}</td>
+       
+        <td>
+            {item.groupCapacity}
+        </td>
+        <td>
+           {item.courseName}
+        </td>
+        <td>
+        <UncontrolledDropdown>
               <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
                 <MoreVertical size={15} />
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'> اطلاعات کاربر </span>
+               
+              
+              
+                <DropdownItem 
+                  onClick={async (e) => {
+                    e.preventDefault()
+                    const data = new FormData()
+                    data.append('Id', item.id)
+                    const response = await DeleteGroup(data)
+                    if(response.success === true){
+                    toast.success(' حذف انجام شد ')
+                    refetchCourse()
+                    }
+                }}
+                
+                
+                >
+                  <Trash className='me-50' size={15} /> <span className='align-middle'>حذف </span>
                 </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={angular} alt='react' height='20' width='20' />
-            <span className='align-middle fw-bold'>ایلیا غلامی</span>
-          </td>
-          <td> 20 </td>
-          
-          <td>
-            <Badge pill color='light-success' className='me-1'>
-            تایید شده
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'> اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
+                <DropdownItem 
+               onClick={() => toggleModal2(item.groupId)}
+                
+                
+                >
+                  <Edit className='me-50' size={15} /> <span className='align-middle'>ویرایش</span>
+                  <EditModalGroup  isOpen={editingGroupId === item.groupId} toggleModal={() => toggleModal2(item.groupId)} CourseId={id}
+                   GroupId={item.groupId} GroupName={item.groupName} GroupCapacity={item.groupCapacity} />
                 </DropdownItem>
               </DropdownMenu>
+               
             </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={avatar1} alt='vuejs' height='20' width='20' />
-            <span className='align-middle fw-bold'> رضا حسن زاده </span>
-          </td>
-          <td>0</td>
-          
-          <td>
-            <Badge pill color='light-warning' className='me-1'>
-              تایید نشده
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'>اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={avatar3} alt='vuejs' height='20' width='20' />
-            <span className='align-middle fw-bold'> محمد رضا رحیمی اسبووووو</span>
-          </td>
-          <td>0</td>
-          
-          <td>
-            <Badge pill color='light-warning' className='me-1'>
-              جوکیییی
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'>اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={vuejs} alt='angular' height='20' width='20' />
-            <span className='align-middle fw-bold'> آرش غفاری چراتی  </span>
-          </td>
-          <td> 20</td>
-         
-          <td>
-            <Badge pill color='light-success' className='me-1'>
-              تایید شده
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'> اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={angular} alt='react' height='20' width='20' />
-            <span className='align-middle fw-bold'>ایلیا غلامی</span>
-          </td>
-          <td> 20 </td>
-          
-          <td>
-            <Badge pill color='light-success' className='me-1'>
-            تایید شده
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'> اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={avatar1} alt='vuejs' height='20' width='20' />
-            <span className='align-middle fw-bold'> رضا حسن زاده </span>
-          </td>
-          <td>0</td>
-          
-          <td>
-            <Badge pill color='light-warning' className='me-1'>
-              تایید نشده
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'>اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img className='me-75' src={avatar3} alt='vuejs' height='20' width='20' />
-            <span className='align-middle fw-bold'> محمد رضا رحیمی اسبووووو</span>
-          </td>
-          <td>0</td>
-          
-          <td>
-            <Badge pill color='light-warning' className='me-1'>
-              جوکیییی
-            </Badge>
-          </td>
-          <td>
-            <UncontrolledDropdown>
-              <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' caret>
-                <MoreVertical size={15} />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Edit className='me-50' size={15} /> <span className='align-middle'>اطلاعات کاربر </span>
-                </DropdownItem>
-                <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                  <Trash className='me-50' size={15} /> <span className='align-middle'> حدف از دوره </span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </td>
-        </tr>
-      </tbody>
-    </Table>
+        </td>
+      </tr>
+    ))}
+      </>
+      }
+    
+ 
+   
+  
+    </tbody>
+      </Table>
+  </Fragment>
   )
 }
 
