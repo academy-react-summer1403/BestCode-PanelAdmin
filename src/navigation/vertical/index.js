@@ -1,10 +1,10 @@
-import { Mail, Home, Airplay, Circle, UserCheck, Tool } from "react-feather";
+import { Mail, Home, Airplay, Circle, UserCheck, Tool, Monitor } from "react-feather";
 
 export default [
   {
     id: "home",
     title: "داشبورد",
-    icon: <Home size={20} />,
+    icon: <Monitor size={20} />,
     navLink: "/home",
   },
   {
@@ -55,6 +55,13 @@ export default [
     title: "مدیریت کامنت ها",
     icon: <Mail size={20} />,
     navLink: "/commentsManagement",
+    
+  },
+  {
+    id: "Building",
+    title: " ساختمان ها ",
+    icon: <Home size={20} />,
+    navLink: "/building",
     
   },
 ];

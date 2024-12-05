@@ -37,6 +37,7 @@ const NewsManagement = lazy(() => import("../../pages/newsManagement"));
 const CommentsManagement = lazy(() => import("../../pages/commentsManagement"));
 const AddnewCourse = lazy(() => import("../../pages/AddnewCourse"));
 const NewsView = lazy(() => import('../../pages/News/view'))
+const Building = lazy(() => import('../../pages/Building'))
 
 // const DetailCommentNews = lazy(() => import("../../../src/@core/components/user1/view/TableHover"));
 
@@ -101,6 +102,10 @@ const Routes = [
   {
     path: "/commentsManagement",
     element: <CommentsManagement />,
+  },
+  {
+    path: "/building",
+    element: <Building />,
   },
   {
     path: "/login",
