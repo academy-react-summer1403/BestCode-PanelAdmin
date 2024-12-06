@@ -1,4 +1,4 @@
-import { Mail, Home, Airplay, Circle, UserCheck, Tool, Monitor } from "react-feather";
+import { Mail, Home, Airplay, Circle, UserCheck, Tool, Monitor, Edit } from "react-feather";
 
 export default [
   {
@@ -63,5 +63,11 @@ export default [
     icon: <Home size={20} />,
     navLink: "/building",
     
+  },
+  {
+    id: "ColorPalet",
+    title: " تم سایت ",
+    icon: <Edit  size={20} />,
+    navLink: "/colorPalet",
   },
 ];

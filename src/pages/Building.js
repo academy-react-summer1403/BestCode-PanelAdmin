@@ -1,8 +1,11 @@
 import React from 'react'
+import BuildingHolder from '../@core/layouts/components/BuildingHolder/BuildingHolder'
 
 const Building = () => {
   return (
-    <div>Building</div>
+    <>
+       <BuildingHolder/>
+    </>
   )
 }
 

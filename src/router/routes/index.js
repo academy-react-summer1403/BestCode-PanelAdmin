@@ -13,6 +13,7 @@ import PublicRoute from "@components/routes/PublicRoute";
 // ** Utils
 import { isObjEmpty } from "@utils";
 import { User } from "react-feather";
+import ColorPalet from "../../pages/ColorPalet";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -106,6 +107,10 @@ const Routes = [
   {
     path: "/building",
     element: <Building />,
+  },
+  {
+    path: "/colorPalet",
+    element: <ColorPalet />,
   },
   {
     path: "/login",
