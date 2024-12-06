@@ -22,10 +22,20 @@ const ColorPalet = () => {
     
   return (
     <> 
+    <button
+                onClick={postPalet}
+                className="btn btn-primary mt-4 "
+                style={{
+                    fontSize: '1.2rem',
+                    padding: '0.5rem 1.5rem',
+                    borderRadius: '8px',
+                }}
+            >
+                تایید رنگ
+            </button>
 
-        <ColorPicker color={color} onChange={setColor} height={300} />;
-        <button onClick={postPalet}>Submit Palette</button>
-
+        <ColorPicker color={color} onChange={setColor} height={300} />
+        
     </>
   )
 }
