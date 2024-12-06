@@ -127,8 +127,7 @@ const UsersList = () => {
   const getBuilding = async() => {
 
     const result = await GetBuildingData();
-       console.log('سلام ایلیا' ,result);
-
+       
     setData3(result);
   }
   // console.log('سلام ایلیا' ,data3);
@@ -220,21 +219,7 @@ const UsersList = () => {
         </Badge>
       )
     },
-    {
-      name: 'وضعیت',
-      minWidth: '138px',
-      sortable: true,
-      sortField: 'status',
-      selector: row => row.active,
-      cell: row => (
-        <Badge className='text-capitaliz' pill>
-          {row.latitude}
-          {setLt(row.latitude)}
-          {setLng(row.longitude)}
-
-        </Badge>
-      )
-    },
+   
 
 
     {
@@ -291,8 +276,8 @@ const UsersList = () => {
 
   const AcceptOptions = [
     { value: '',  label: 'انتخاب کنید' },
-    { value: false, label: ' در حال انتظار ' },
-    { value: true, label: ' قبول شده ' },
+    { value: false, label: ' فعال ' },
+    { value: true, label: ' غیرفعال ' },
   ]
 
   // const TeacherOptions = Create?.teachers.map(teacher => ({value: teacher.teacherId, label: teacher.fullName !== null ? (teacher.fullName).replace('-', ' ') : ' نامشخص '}))
@@ -366,8 +351,8 @@ const UsersList = () => {
        }
         <CardBody>
           <Row>
-            <Col md='6'>
-              <Label for='role-select'> وضعیت نظرات </Label>
+            <Col md='8'>
+              <Label for='role-select'> وضعیت  </Label>
               <Select
                 isClearable={false}
                 value={Accept}
@@ -381,21 +366,7 @@ const UsersList = () => {
                 }}
               />
             </Col>
-            <Col md='6'>
-              <Label for='role-select'> استاد دوره </Label>
-              <Select
-                isClearable={false}
-                value={Teacher}
-                options={'TeacherOptions'}
-                className='react-select'
-                classNamePrefix='select'
-                theme={selectThemeColors}
-                onChange={data => {
-                    setPageNumber(1)
-                    setTeacher(data)
-                }}
-              />
-            </Col>
+            
           </Row>
         </CardBody>
       </Card>
