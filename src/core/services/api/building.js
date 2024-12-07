@@ -8,8 +8,8 @@ export const GetBuildingData = async (SortType, SortingCol, Query, PageNumber = 
         console.log(response);
         return response;
     } catch (err) {
-        console.error('Error fetching building data:', err);
-        toast.error('مشکلی در دریافت اطلاعات پیش آمد.');
+        // console.error('Error fetching building data:', err);
+        // toast.error('مشکلی در دریافت اطلاعات پیش آمد.');
         return [];
     }
 };
@@ -20,8 +20,8 @@ export const PostActiveBuilding = async (id) => {
         toast.success('ساختمان با موفقیت فعال شد.');
         return response.data;
     } catch (err) {
-        console.error('Error activating building:', err);
-        toast.error('مشکلی در فعال‌سازی ساختمان پیش آمد.');
+        // console.error('Error activating building:', err);
+        // toast.error('مشکلی در فعال‌سازی ساختمان پیش آمد.');
         return [];
     }
 };
@@ -32,8 +32,8 @@ export const PostDeactiveBuilding = async (id) => {
         toast.success('ساختمان با موفقیت غیرفعال شد.');
         return response.data;
     } catch (err) {
-        console.error('Error deactivating building:', err);
-        toast.error('مشکلی در غیرفعال‌سازی ساختمان پیش آمد.');
+        // console.error('Error deactivating building:', err);
+        // toast.error('مشکلی در غیرفعال‌سازی ساختمان پیش آمد.');
         return [];
     }
 };
@@ -44,8 +44,8 @@ export const PostCreateBuilding = async (data) => {
         toast.success('ساختمان با موفقیت ایجاد شد.');
         return response.data;
     } catch (err) {
-        console.error('Error creating building:', err);
-        toast.error('مشکلی در ایجاد ساختمان پیش آمد.');
+        // console.error('Error creating building:', err);
+        // toast.error('مشکلی در ایجاد ساختمان پیش آمد.');
         return [];
     }
 };
@@ -56,8 +56,16 @@ export const PutUpdateBuilding = async (data) => {
         toast.success('ساختمان با موفقیت به‌روزرسانی شد.');
         return response.data;
     } catch (err) {
-        console.error('Error updating building:', err);
-        toast.error('مشکلی در به‌روزرسانی ساختمان پیش آمد.');
+        // console.error('Error updating building:', err);
+        // toast.error('مشکلی در به‌روزرسانی ساختمان پیش آمد.');
         return [];
     }
 };
+export const GetDashboardData = async () => {
+   
+    const data = http.get(`/Report/DashboardReport`)
+
+    return data;
+
+};
+

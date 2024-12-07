@@ -27,8 +27,8 @@ const WizardVertical = () => {
     },
     {
       id: 'personal-info',
-      title: ' اطلاعات استاد ',
-      subtitle: '  اطلاعات استاد را وارد کنید ',
+      title: ' توضیحات تکمیلی دوره ',
+      subtitle: '  توضیحات تکمیلی را وارد کنید ',
       content: <PersonalInfo stepper={stepper} type='wizard-vertical' />
     },
     {
@@ -39,8 +39,8 @@ const WizardVertical = () => {
     },
     {
       id: 'social-links',
-      title: ' راه های ارتباطی ',
-      subtitle: '  راه های ارتباطی با استاد را وارد کنید ',
+      title: ' عکس دوره ',
+      subtitle: '  عکس دوره را انتخواب کنید  ',
       content: <SocialLinks stepper={stepper} type='wizard-vertical' />
     }
   ]

@@ -144,17 +144,24 @@ const Notifications = () => {
      
     </Table>
     <nav>
-        <ul className="pagination justify-content-center">
-          {Array.from({ length: Math.ceil(result.length / itemsPerPage) }, (_, index) => (
-            <li
-              key={index}
-              className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
-              onClick={() => paginate(index + 1)}
-            >
-              <button className="page-link">{index + 1}</button>
-            </li>
-          ))}
-        </ul>
+    <ul className="pagination justify-content-center">
+  {Array.from({ length: Math.ceil(result.length / itemsPerPage) }, (_, index) => index + 1)
+    .filter(page => {
+      const start = Math.max(1, currentPage - 2); // حداقل صفحه شروع
+      const end = Math.min(Math.ceil(result.length / itemsPerPage), currentPage + 3); // حداکثر صفحه پایان
+      return page >= start && page <= end;
+    })
+    .map(page => (
+      <li
+        key={page}
+        className={`page-item ${currentPage === page ? 'active' : ''}`}
+        onClick={() => paginate(page)}
+      >
+        <button className="page-link">{page}</button>
+      </li>
+    ))}
+</ul>
+
       </nav>
     </Fragment>
   )

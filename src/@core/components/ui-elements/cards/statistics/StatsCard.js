@@ -4,14 +4,21 @@ import { TrendingUp, User, Box, DollarSign } from 'react-feather'
 import { useState, useEffect } from 'react'
 // ** Custom Components
 import Avatar from '@components/avatar'
-import { getUserlist , getAllCourse} from '../../../../../core/services/api/usersmanager'
+import { GetDashboardData  , } from '../../../../../core/services/api/building' 
+import { getAllCourse , getUserlist } from '../../../../../core/services/api/usersmanager'
 // ** Reactstrap Imports
 import { Card, CardHeader, CardTitle, CardBody, CardText, Row, Col } from 'reactstrap'
 
 const StatsCard = ({ cols }) => {
    const [totaluser , setTotaluser] = useState([])
    const [totalcourse , setTotalcourse] = useState([])
-  
+   const [totalpayment , setTotalpayment] = useState([])
+
+   const total = async () => {
+    const result = await GetDashboardData()
+    setTotalpayment(result)
+  }
+
   const Totalusers = async () => {
      const result = await getUserlist()
      setTotaluser(result?.totalCount)
@@ -25,11 +32,12 @@ const StatsCard = ({ cols }) => {
    useEffect(()=> {
     Totalusers()
     TotalCourses()
+    total()
    }, [])
   const data = [
     {
-      title: '230k',
-      subtitle: ' فروش ',
+      title:  totalpayment?.inCompeletUserCount,
+      subtitle: ' کاربران تکمیل پروفایل کرده ',
       color: 'light-primary',
       icon: <TrendingUp size={24} />
     },
@@ -46,8 +54,8 @@ const StatsCard = ({ cols }) => {
       icon: <Box size={24} />
     },
     {
-      title: '$9745',
-      subtitle: 'درامد',
+      title: totalpayment?.allPaymentCost,
+      subtitle: 'فروش',
       color: 'light-success',
       icon: <DollarSign size={24} />
     }
@@ -68,8 +76,9 @@ const StatsCard = ({ cols }) => {
           <div className='d-flex align-items-center'>
             <Avatar color={item.color} icon={item.icon} className='me-2' />
             <div className='my-auto'>
-              <h4 className='fw-bolder mb-0'>{item.title}</h4>
-              <CardText className=' mb-0'>{item.subtitle}</CardText>
+            <h4 className="fw-bolder mb-0 text-truncate" style={{ width: '100px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {item.title}
+            </h4>              <CardText className=' mb-0'>{item.subtitle}</CardText>
             </div>
           </div>
         </Col>

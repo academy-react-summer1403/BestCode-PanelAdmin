@@ -114,7 +114,7 @@ const UsersList = () => {
   const [Accept, setAccept] = useState({ value: '', label: 'انتخاب کنید' })
   const [Teacher, setTeacher] = useState({ value: '', label: 'انتخاب کنید' })
 
-  const {data: Create} = useQuery({queryKey: ['PostCreateBuilding'], queryFn: PostCreateBuilding})
+  const {data: Create} = useQuery({queryKey: [''], queryFn: PostCreateBuilding})
 
   // const {data: GetBuildingData, refetch, isLoading, isFetching} = useQuery({
   //   queryKey: ['GetBuildingData', SortType, SortingCol, Query, PageNumber, RowsOfPage, Accept, ], 

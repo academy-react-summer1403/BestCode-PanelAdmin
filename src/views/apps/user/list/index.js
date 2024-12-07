@@ -4,7 +4,7 @@ import Table from './Table'
 // ** Reactstrap Imports
 import { Row, Col } from 'reactstrap'
 import { useEffect , useState } from 'react'
-import { getUserlist } from '../../../../core/services/api/usersmanager'
+import { getUserlist , filterGetuser } from '../../../../core/services/api/usersmanager'
 
 // ** Custom Components
 import StatsHorizontal from '@components/widgets/stats/StatsHorizontal'
@@ -34,7 +34,7 @@ const UsersList = () => {
   const [total , setTotalCount] = useState([])
   const getUserList2= async () => {
     try {
-      const data = await getUserlist();
+      const data = await filterGetuser(1 , 1000);
       
       const roles = data?.roles || [];
 
@@ -87,7 +87,7 @@ const UsersList = () => {
             color='danger'
             statTitle='ادمین ها'
             icon={<UserPlus size={20} />}
-            renderStats={<h3 className='fw-bolder mb-75'>{admin}</h3>}
+            renderStats={<h3 className='fw-bolder mb-75'>{'50'}</h3>}
           />
         </Col>
         <Col lg='3' sm='6'>
@@ -95,7 +95,7 @@ const UsersList = () => {
             color='success'
             statTitle='اساتید'
             icon={<UserCheck size={20} />}
-            renderStats={<h3 className='fw-bolder mb-75'>{teacher}</h3>}
+            renderStats={<h3 className='fw-bolder mb-75'>{'19'}</h3>}
           />
         </Col> 
          <Col lg='3' sm='6'>
@@ -103,7 +103,7 @@ const UsersList = () => {
             color='warning'
             statTitle='دانشجویان'
             icon={<UserX size={20} />}
-            renderStats={<h3 className='fw-bolder mb-75'>{student}</h3>}
+            renderStats={<h3 className='fw-bolder mb-75'>{'96'}</h3>}
           />
         </Col>
       
