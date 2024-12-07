@@ -127,7 +127,7 @@ const navigate=useNavigate()
               </g>
             </g>
           </svg>
-          <h2 className="brand-text text-primary ms-1">Vuexy</h2>
+          <h2 className="brand-text text-primary ms-1">BeastCode</h2>
         </Link>
         <Col className="d-none d-lg-flex align-items-center p-5" lg="8" sm="12">
           <div className="w-100 d-lg-flex align-items-center justify-content-center px-5">
@@ -141,10 +141,9 @@ const navigate=useNavigate()
         >
           <Col className="px-xl-2 mx-auto" sm="8" md="6" lg="12">
             <CardTitle tag="h2" className="fw-bold mb-1">
-              Welcome to Vuexy! 👋
+              برای نمایش داده ها وارد شوید
             </CardTitle>
             <CardText className="mb-2">
-              Please sign-in to your account and start the adventure
             </CardText>
             <Form
               className="auth-login-form mt-2"
@@ -152,7 +151,7 @@ const navigate=useNavigate()
             >
               <div className="mb-1">
                 <Label className="form-label" for="login-email">
-                  Email
+                  شماره / ایمیل  
                 </Label>
                 <Input
                   type="email"
@@ -168,7 +167,7 @@ const navigate=useNavigate()
                     Password
                   </Label>
                   <Link to="/forgot-password">
-                    <small>Forgot Password?</small>
+                    <small> نمایش پسوورد </small>
                   </Link>
                 </div>
                 <InputPasswordToggle
@@ -180,21 +179,21 @@ const navigate=useNavigate()
               <div className="form-check mb-1">
                 <Input type="checkbox" id="remember-me" />
                 <Label className="form-check-label" for="remember-me">
-                  Remember Me
+                  مرا به خاطر بسپار
                 </Label>
               </div>
               <Button onClick={HandelSumbit} color="primary" block>
-                Sign in
+                ورود
               </Button>
             </Form>
             <p className="text-center mt-2">
-              <span className="me-25">New on our platform?</span>
+              <span className="me-25"> میخواهید اکانت بسازید ?</span>
               <Link to="/register">
-                <span>Create an account</span>
+                <span> ساخت اکانت </span>
               </Link>
             </p>
             <div className="divider my-2">
-              <div className="divider-text">or</div>
+              <div className="divider-text"></div>
             </div>
             <div className="auth-footer-btn d-flex justify-content-center">
               <Button color="facebook">
